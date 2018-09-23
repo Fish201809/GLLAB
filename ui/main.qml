@@ -1,9 +1,25 @@
-import QtQuick 2.9
-import QtQuick.Window 2.2
 
-Window {
-    visible: true
-    width: 640
+import QtQuick 2.0
+import OpenGLUnderQML 1.0
+
+Item {
+
+    width: 320
     height: 480
-    title: qsTr("Hello World")
+
+	Triangle{
+	//   SequentialAnimation on num {
+    //         NumberAnimation { to: 1; duration: 2500; easing.type: Easing.InQuad }
+    //         NumberAnimation { to: 0; duration: 2500; easing.type: Easing.OutQuad }
+    //         loops: Animation.Infinite
+    //         running: true
+    //     }
+	}
+    Rectangle {
+        color: Qt.rgba(1, 1, 1, 0.7)
+        radius: 10
+        border.width: 1
+        border.color: "white"
+        anchors.margins: -10
+    }
 }

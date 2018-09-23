@@ -29,9 +29,15 @@ find_package(OpenSceneGraph  3.6.3 REQUIRED osgDB osgGA osgUtil osgText osgViewe
 
 
 
-aux_source_directory(src src_dir)
+file(GLOB src_dir src/*.cpp)
+source_group("Source Files" FILES ${src_dir})
+
+file(GLOB include_dir include/*.h)
+source_group("Include Files" FILES ${include_dir})
+
+include_directories("include")
 
 
 
-add_executable(learn_opengl ${src_dir} ${ui_qml_dir} "ui/qml.qrc" )
+add_executable(learn_opengl ${src_dir} ${include_dir} ${ui_qml_dir} "ui/qml.qrc" )
 target_link_libraries(learn_opengl Qt5::Quick Qt5::Core)
