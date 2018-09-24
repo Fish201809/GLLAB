@@ -1,0 +1,13 @@
+
+if(NOT GLM_DIR)
+#message(FATAL_ERROR "GLM_DIR not found!")
+set(GLM_DIR $ENV{GLM_DIR} CACHE PATH "Choose SDL2 PATH" FORCE)
+else(NOT GLM_DIR)
+find_path(GLM_INCLUDE_DIR glm/glm.hpp ${GLM_DIR})
+message(STATUS "********************GLM*************************")
+message(STATUS "GLM_INCLUDE: " ${GLM_INCLUDE_DIR})
+message(STATUS "********************GLM-LIBS*************************")
+message(STATUS "debug: " )
+message(STATUS "release: " )
+message(STATUS "********************END*************************")
+endif(NOT GLM_DIR)
