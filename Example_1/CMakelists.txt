@@ -1,0 +1,21 @@
+
+
+
+file(GLOB src_dir src/*.cpp)
+source_group("Source Files" FILES ${src_dir})
+
+file(GLOB include_dir include/*.h)
+source_group("Include Files" FILES ${include_dir})
+
+include_directories("include")
+
+add_executable(learn_opengl ${src_dir} ${include_dir})
+target_link_libraries(learn_opengl GLAD_libs)
+target_link_libraries(learn_opengl debug ${SDL2_debug_libs})
+target_link_libraries(learn_opengl optimized ${SDL2_release_libs})
+set_target_properties(learn_opengl PROPERTIES FOLDER Example)
+
+set_target_properties(learn_opengl PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_INSTALL_PREFIX}/BIN)
+
+
+#install(TARGETS learn_opengl DESTINATION BIN)
