@@ -1,23 +1,21 @@
 
 
-
-find_package(glfw3 CONFIG REQUIRED)
 find_package(gl3w CONFIG REQUIRED)
-
-
+find_package(glm CONFIG REQUIRED)
+    
 file(GLOB src_dir src/*.cpp)
 source_group("Source Files" FILES ${src_dir})
 
 file(GLOB include_dir include/*.h)
 source_group("Include Files" FILES ${include_dir})
 
+
+include_directories(${CMAKE_BINARY_DIR}/configuration)
+configure_file(configuration/root_directory.h.in configuration/root_directory.h)
+
 include_directories("include")
 
-add_executable(Common ${src_dir} ${include_dir})
-set_target_properties(Common PROPERTIES FOLDER Example)
-target_link_libraries(Common PRIVATE glfw)
+add_library(Common ${src_dir} ${include_dir})
+set_target_properties(Common PROPERTIES FOLDER Common)
+target_link_libraries(Common PRIVATE glm)
 target_link_libraries(Common PRIVATE unofficial::gl3w::gl3w)
-
-
-
-#install(TARGETS Common DESTINATION BIN)
