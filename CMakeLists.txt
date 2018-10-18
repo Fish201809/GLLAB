@@ -15,13 +15,9 @@ set(CMAKE_CXX_STANDARD 11)  #Seting c11 standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-#QT5 Seting
-find_package(Qt5 COMPONENTS Core Quick REQUIRED)
-include_directories(Qt5)
+find_package(glfw3 CONFIG REQUIRED)
+find_package(gl3w CONFIG REQUIRED)
 
-
-#OSG Seting
-find_package(OpenSceneGraph REQUIRED osgDB osgGA osgUtil osgText osgViewer osgWidget)
 
 
 file(GLOB src_dir src/*.cpp)
@@ -39,6 +35,6 @@ source_group("Shader Files" FILES ${shader_dir})
 
 include_directories("include")
 
-
-add_executable(learn_opengl ${src_dir} ${include_dir} ${qml_dir} ${shader_dir} "resources/qml.qrc" )
-target_link_libraries(learn_opengl Qt5::Quick Qt5::Core)
+add_executable(learn_opengl ${src_dir} ${include_dir} ${qml_dir} ${shader_dir})
+target_link_libraries(learn_opengl PRIVATE glfw)
+target_link_libraries(learn_opengl PRIVATE unofficial::gl3w::gl3w)

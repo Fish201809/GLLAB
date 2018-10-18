@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>ui/main.qml</file>
-        <file>ui/MyItem.qml</file>
-        <file>shaders/basic.vert</file>
-        <file>shaders/basic.frag</file>
-    </qresource>
-</RCC>
