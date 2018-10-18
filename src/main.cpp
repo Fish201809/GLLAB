@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+﻿#include <QGuiApplication>
 #include <QtQuick/QQuickView>
 
 #include "triangle.h"
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
 	QQuickView view;
 	view.setResizeMode(QQuickView::SizeRootObjectToView);
-	view.setSource(QUrl(QStringLiteral("qrc:/main.qml")));
+	view.setSource(QUrl(QStringLiteral("qrc:/ui/main.qml")));
 	view.show();
 
 	return app.exec();
