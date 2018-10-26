@@ -11,11 +11,15 @@ set(DCMAKE_TOOLCHAIN_FILE "G:/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
 set(CMAKE_CXX_STANDARD 11)  #Seting c11 standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set_property(GLOBAL PROPERTY USE_FOLDERS On) 
+set_property(GLOBAL PROPERTY USE_FOLDERS On)
 
-add_subdirectory("Resource")
-add_subdirectory("Common")
+
+include_directories(${CMAKE_BINARY_DIR}/configuration)
+configure_file(tool/configuration/root_directory.h.in configuration/root_directory.h)
+
+
+add_subdirectory("resource")
+add_subdirectory("tool")
 
 #添加例子
-add_subdirectory("Example_1")
-add_subdirectory("Example_2")
+add_subdirectory("opengl_src")

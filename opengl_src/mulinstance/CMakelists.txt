@@ -1,0 +1,28 @@
+
+include_directories(${CMAKE_SOURCE_DIR}/tool/include)
+
+find_package(glfw3 CONFIG REQUIRED)
+find_package(gl3w CONFIG REQUIRED)
+
+
+file(GLOB src_dir src/*.cpp)
+source_group("Source Files" FILES ${src_dir})
+
+file(GLOB include_dir include/*.h)
+source_group("Include Files" FILES ${include_dir})
+
+file(GLOB shader_dir shader/*.vert shader/*.frag)
+source_group("Shader Files" FILES ${shader_dir})
+
+include_directories("include")
+
+add_executable("instance" ${src_dir} ${include_dir} ${shader_dir})
+set_target_properties("instance" PROPERTIES FOLDER "GL")
+target_link_libraries("instance" tool)
+target_link_libraries("instance" PRIVATE glfw)
+target_link_libraries("instance" PRIVATE unofficial::gl3w::gl3w)
+
+install(FILES ${shader_dir} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+
+#install(TARGETS ${EXE_TARGET_NAME} DESTINATION BIN)
