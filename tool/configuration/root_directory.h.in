@@ -1,1 +1,1 @@
-const char * logl_root = "${CMAKE_SOURCE_DIR}/resource";
+constexpr auto logl_root = "${CMAKE_SOURCE_DIR}/resource";

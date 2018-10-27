@@ -6,7 +6,6 @@
 #include "filesystem.h"
 using namespace std;
 
-
 static const GLfloat vbo_chess_vertex[] = {
 	0.5f, -0.5f, 0.0f,
 	0.5f, 0.5f, 0.0f,
@@ -21,8 +20,7 @@ GLuint fbo;
 GLuint buffer;
 
 void init() {
-	
-//	DoTheImportThing(FileSystem::getPath("model/nanosuit/nanosuit.obj"));
+	//	DoTheImportThing(FileSystem::getPath("model/nanosuit/nanosuit.obj"));
 	ShaderProgram shader_program;
 	shader_program.attach_vertex_shader("basic.vert");
 	shader_program.attach_fragment_shader("basic.frag");
@@ -31,7 +29,7 @@ void init() {
 
 	glCreateBuffers(1, &vbo);
 	glNamedBufferStorage(vbo, sizeof(vbo_chess_vertex), vbo_chess_vertex, 0);
-	
+
 	glCreateVertexArrays(1, &vao);
 
 	glBindVertexArray(vao);
@@ -51,7 +49,7 @@ void display() {
 int main(int agrc, char *argv[]) {
 	try {
 		glfwInit();
-			
+
 		GLFWwindow *window = glfwCreateWindow(640, 480, "learn opengl", nullptr, nullptr);
 		glfwMakeContextCurrent(window);
 		gl3wInit();
@@ -67,7 +65,6 @@ int main(int agrc, char *argv[]) {
 	catch (const std::exception& e) {
 		std::cout << e.what();
 	}
-	
 
 	return 0;
 }

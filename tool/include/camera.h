@@ -14,7 +14,7 @@ public:
 	glm::vec3 right_ = glm::vec3(1.0f, 0.0f, 0.0f);
 	glm::vec3 front_ = glm::vec3(0.0f, 0.0f, 1.0f);
 
-	glm::vec3 world_position_ = glm::vec3(-20.0f, 15.0f, 100.0f);
+	glm::vec3 world_position_ = glm::vec3(-10.0f, 15.0f, 100.0f);
 public:
 	virtual glm::mat4 get_matrix() = 0;
 

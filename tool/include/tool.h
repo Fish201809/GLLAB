@@ -13,14 +13,15 @@
 #include "shaderprogram.h"
 #include "OrthoCamera.h"
 #include "ProjectionCamera.h"
-
+#include "filesystem.h"
 #include "plane.h"
+#include "cube.h"
+#include "loadimage.h"
 
 
 #pragma warning( disable : 4244 )
 
 using namespace std;
-
 
 
 
@@ -33,8 +34,9 @@ public:
 	void setting();
 
 public:
-	virtual void init();
-	virtual void display();
+	virtual void set_state() = 0;
+	virtual void init() = 0;
+	virtual void display() = 0;
 	virtual void run();
 	void process_key(GLFWwindow *window);
 	float frame_rate = 0.0f;
@@ -42,11 +44,9 @@ public:
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 
-	std::shared_ptr<Plane> plane;
+
 };
 
-
-extern std::shared_ptr<Camera> camera_;
 
 
 

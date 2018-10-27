@@ -1,9 +1,6 @@
-﻿#include <gl/gl3w.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-#include "shaderprogram.h"
-using namespace std;
+﻿#include "tool.h"
 
+using namespace std;
 
 static const GLfloat vbo_chess_vertex[] = {
 	0.5f, -0.5f, 0.0f,
@@ -19,8 +16,6 @@ GLuint fbo;
 GLuint buffer;
 
 void init() {
-	
-
 	ShaderProgram shader_program;
 	shader_program.attach_vertex_shader("basic.vert");
 	shader_program.attach_fragment_shader("basic.frag");
@@ -29,8 +24,8 @@ void init() {
 
 	glCreateBuffers(1, &vbo);
 	glNamedBufferStorage(vbo, sizeof(vbo_chess_vertex), vbo_chess_vertex, 0);
-//	glNamedBufferStorage(vbo, sizeof(vbo_chess_vertex), vbo_chess_vertex, 0);
-	
+	//	glNamedBufferStorage(vbo, sizeof(vbo_chess_vertex), vbo_chess_vertex, 0);
+
 	glCreateVertexArrays(1, &vao);
 
 	glBindVertexArray(vao);
@@ -56,7 +51,6 @@ void init() {
 }
 
 void display() {
-
 	static const GLfloat black[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	glClearBufferfv(GL_COLOR, 0, black);
 	glBindVertexArray(vao);
@@ -85,7 +79,6 @@ int main(int agrc, char *argv[]) {
 	catch (const std::exception& e) {
 		std::cout << e.what();
 	}
-	
 
 	return 0;
 }

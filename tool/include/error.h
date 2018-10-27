@@ -7,7 +7,6 @@
 // pxd: from libcpp.string cimport string
 #include <string>
 
-
 class Error : public std::runtime_error
 {
 public:
@@ -18,12 +17,10 @@ public:
 	 */
 	std::string msg;
 
-
 	/**
 	 * Returns the message's content.
 	 */
 	const char *what() const noexcept override;
-
 };
 
 std::ostream &operator <<(std::ostream &os, const Error &e);

@@ -1,14 +1,12 @@
 ﻿#include "native.h"
 #include "error.h"
 
-
 #include <sstream>
 
 Native::Native(const std::string &path, mode_t mode)
 	:
 	path{ path },
 	mode{ mode } {
-
 	std::ios_base::openmode open_mode;
 
 	switch (this->mode) {
@@ -41,9 +39,7 @@ Native::Native(const std::string &path, mode_t mode)
 	}
 }
 
-
 Native::~Native() {}
-
 
 std::string Native::read(ssize_t max) {
 	// read whole file:
@@ -74,29 +70,24 @@ std::string Native::read(ssize_t max) {
 	}
 }
 
-
 size_t Native::read_to(void *buf, ssize_t max) {
 	this->file.readsome(reinterpret_cast<std::fstream::char_type *>(buf), max);
 	return this->file.gcount();
 }
-
 
 bool Native::readable() {
 	return (this->mode == mode_t::R or
 			this->mode == mode_t::RW);
 }
 
-
 void Native::write(const std::string &data) {
 	this->file.write(data.c_str(), data.size());
 }
-
 
 bool Native::writable() {
 	return (this->mode == mode_t::W or
 			this->mode == mode_t::RW);
 }
-
 
 void Native::seek(ssize_t offset, seek_t how) {
 	std::ios::seekdir where;
@@ -118,26 +109,21 @@ void Native::seek(ssize_t offset, seek_t how) {
 	this->file.seekg(offset, where);
 }
 
-
 bool Native::seekable() {
 	return true;
 }
-
 
 size_t Native::tell() {
 	return this->file.tellg();
 }
 
-
 void Native::close() {
 	this->file.close();
 }
 
-
 void Native::flush() {
 	this->file.flush();
 }
-
 
 ssize_t Native::get_size() {
 	// remember where we were
@@ -152,7 +138,6 @@ ssize_t Native::get_size() {
 
 	return size;
 }
-
 
 std::ostream &Native::repr(std::ostream &stream) {
 	stream << "Native(" << this->path << ")";

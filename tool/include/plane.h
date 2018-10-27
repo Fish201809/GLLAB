@@ -25,5 +25,6 @@ public:
 	virtual void init();
 	GLuint vao_;
 	GLuint vbo_;
+	GLuint texture_;
 	std::shared_ptr<ShaderProgram> program_;
 };

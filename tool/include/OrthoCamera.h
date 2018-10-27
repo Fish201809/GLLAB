@@ -7,7 +7,7 @@
 
 #pragma warning( disable : 4244 )
 
-class OrthoCamera: public Camera
+class OrthoCamera : public Camera
 {
 public:
 	const glm::vec3 WORLD_UP = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -17,7 +17,6 @@ public:
 		control_enable_ = control_enable;
 	}
 	OrthoCamera() :OrthoCamera(10.0f, 10.0f, false) {
-
 	}
 	bool control_enable_ = false;
 	float yaw_ = 0.0f;		//偏航角
@@ -47,10 +46,8 @@ public:
 				world_position_ -= right_ * speed_;
 			}
 			else if (key == GLFW_KEY_H && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-
 			}
 		}
-		
 	}
 
 	virtual void scrollfunCallBack(GLFWwindow* window, double x, double y) override {

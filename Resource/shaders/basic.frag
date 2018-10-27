@@ -1,8 +1,12 @@
-uniform lowp float t;
-varying highp vec2 coords;
-void main() {
-	lowp float i = 1. - (pow(abs(coords.x), 4.) + pow(abs(coords.y), 4.));
-	i = smoothstep(t - 0.8, t + 0.8, i);
-	i = floor(i * 20.) / 20.;
-	gl_FragColor = vec4(coords * .5 + .5, i, i);
+#version 450 core
+
+out vec4 color;
+in vec3 Fcolor;
+in vec2 fCord;
+
+uniform sampler2D ourColor;
+
+void main(){	
+	color = texture(ourColor, fCord);
+	//color = vec4(fCord, 0.0f, 1.0f);
 }

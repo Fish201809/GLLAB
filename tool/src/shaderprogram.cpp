@@ -92,7 +92,7 @@ void ShaderProgram::attach_fragment_shader(const std::string &path) {
 		std::vector<char> infolog(loglen);
 		glGetShaderInfoLog(fragment_shader_handle, loglen, nullptr, infolog.data());
 
-		std::string info = info + "Failed to compiler fragment shader:\n" + infolog.data();
+		std::string info = std::string() + "Failed to compiler fragment shader:\n" + infolog.data();
 		throw Error(info);
 	}
 	glAttachShader(handle, fragment_shader_handle);

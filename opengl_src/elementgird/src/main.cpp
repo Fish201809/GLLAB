@@ -1,6 +1,4 @@
-﻿
-#include "tool.h"
-
+﻿#include "tool.h"
 
 enum VBOTYPE
 {
@@ -23,7 +21,6 @@ GLuint VBO[NUMVBO] = {};
 GLuint fbo;
 GLuint buffer;
 ShaderProgram *shader_program = nullptr;
-
 
 //因为Opengl插值算法的原因：这个例子无法可能实现黑白相间棋盘，解决方案应该是使用贴图，这个例子也无法实现单个网格多实例渲染，因为该渲染是使用索引绘制，
 //只能多实例绘制整个网格，因为一个实例的索引是整个网格的，使用普通的非索引绘制可能也能解决多实例单个网格
@@ -103,7 +100,6 @@ class EChessFail : public ExampleTemplate
 
 		GLfloat time = (float)glfwGetTime();
 
-
 		glm::mat4 rotate_matrix = glm::mat4(1.0f);
 		glm::mat4 model_matrix = glm::mat4(1.0f);
 		shader_program->set_uniform_mat4("model_matrix", model_matrix);
@@ -113,13 +109,9 @@ class EChessFail : public ExampleTemplate
 
 		glDrawElements(GL_TRIANGLES, (VERTEX_NUM - 1) * (VERTEX_NUM - 1) * 6, GL_UNSIGNED_INT, 0);
 	}
-
 };
 
-
 EChessFail test;
-
-
 
 int main(int agrc, char *argv[]) {
 	test.run();
