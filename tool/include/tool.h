@@ -14,80 +14,39 @@
 #include "OrthoCamera.h"
 #include "ProjectionCamera.h"
 
+#include "plane.h"
 
+
+#pragma warning( disable : 4244 )
 
 using namespace std;
 
-std::shared_ptr<Camera> camera_ = std::make_shared<ProjectionCamera>();
 
-void keyfunCallBack(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	camera_->keyfunCallBack(window, key, scancode, action, mods);
-}
 
-void scrollfunCallBack(GLFWwindow* window, double x, double y) {
-	camera_->scrollfunCallBack(window, x, y);
-}
-
-void mouseCallBack(GLFWwindow* window, double xpos, double ypos) {
-	camera_->mouseCallBack(window, xpos, ypos);
-}
-
-void windowSizeCallBack(GLFWwindow* window, int width, int height) {
-	//std::cout << "width: " << width << " height: " << height << std::endl;
-	glViewport(0, 0, width, height);
-}
 
 class ExampleTemplate
 {
 public:
-	ExampleTemplate() {
-		setting();
-	}
+	ExampleTemplate();
 	
 	GLFWwindow *window = nullptr;
-	void setting() {
-		glfwInit();
-		window = glfwCreateWindow(640, 480, "learn opengl", nullptr, nullptr);
-		glfwSetWindowSizeCallback(window, windowSizeCallBack);
-		glfwSetKeyCallback(window, keyfunCallBack);
-		glfwSetScrollCallback(window, scrollfunCallBack);
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		glfwSetCursorPosCallback(window,mouseCallBack);
-
-		glfwMakeContextCurrent(window);
-		gl3wInit();
-	}
+	void setting();
 
 public:
 	virtual void init();
 	virtual void display();
 	virtual void run();
+	void process_key(GLFWwindow *window);
+	float frame_rate = 0.0f;
+	float elapse_time = 0.0f;
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
 
-
+	std::shared_ptr<Plane> plane;
 };
 
 
+extern std::shared_ptr<Camera> camera_;
 
-void ExampleTemplate::init() {
 
-}
 
-void ExampleTemplate::display() {
-
-}
-
-void ExampleTemplate::run() {
-	try {
-		init();
-		while (glfwWindowShouldClose(window) != GL_TRUE) {
-			display();
-			glfwSwapBuffers(window);
-			glfwPollEvents();
-		}
-		glfwDestroyWindow(window);
-		glfwTerminate();
-	}
-	catch (const std::exception& e) {
-		std::cout << e.what();
-	}
-}

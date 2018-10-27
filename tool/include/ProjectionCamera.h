@@ -7,6 +7,9 @@
 #include "camera.h"
 
 
+
+#pragma warning( disable : 4244 )
+
 class ProjectionCamera:public Camera
 {
 public:
@@ -24,14 +27,8 @@ public:
 	float width = 800.0f;
 	float height = 600.0f;
 
-	float distance_ = 1000.0f;
-	float speed_ = 1.0f;
+	float distance_ = 5000.0f;
 
-	glm::vec3 up_ = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 right_ = glm::vec3(1.0f, 0.0f, 0.0f);
-	glm::vec3 front_ = glm::vec3(0.0f, 0.0f, 1.0f);
-
-	glm::vec3 world_position_ = glm::vec3(0.0f, 0.0f, 10.0f);
 
 	virtual glm::mat4 get_matrix() override;
 
@@ -39,22 +36,21 @@ public:
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-		
-			if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				world_position_ -= front_ * speed_;
-			}
-			else if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				world_position_ += front_ * speed_;
-			}
-			else if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				world_position_ += right_ * speed_;
-			}
-			else if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				world_position_ -= right_ * speed_;
-			}
-			else if (key == GLFW_KEY_H && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
+		if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
+			world_position_ -= front_ * speed_;
+		}
+		else if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
+			world_position_ += front_ * speed_;
+		}
+		else if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
+			world_position_ += right_ * speed_;
+		}
+		else if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
+			world_position_ -= right_ * speed_;
+		}
+		else if (key == GLFW_KEY_H && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
 
-			}
+		}	
 	}
 
 	virtual void scrollfunCallBack(GLFWwindow* window, double x, double y) override{
@@ -83,7 +79,7 @@ public:
 				last_x = xpos;
 				last_y = ypos;
 
-				float sensitivity = 0.05;
+				float sensitivity = 0.05f;
 				xoffset *= sensitivity;
 				yoffset *= sensitivity;
 

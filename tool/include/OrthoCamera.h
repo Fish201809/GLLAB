@@ -5,6 +5,7 @@
 #include <iostream>
 #include "camera.h"
 
+#pragma warning( disable : 4244 )
 
 class OrthoCamera: public Camera
 {
@@ -26,14 +27,6 @@ public:
 	float harf_height_ = 10.0f;
 
 	float distance_ = 1000.0f;
-	float speed_ = 1.0f;
-
-	glm::vec3 up_ = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 right_  = glm::vec3(1.0f, 0.0f, 0.0f);
-	glm::vec3 front_ = glm::vec3(0.0f, 0.0f, 1.0f);
-
-	glm::vec3 world_position_ = glm::vec3(0.0f, 0.0f, 10.0f);
-
 	virtual glm::mat4 get_matrix() override;
 
 	virtual void keyfunCallBack(GLFWwindow* window, int key, int scancode, int action, int mods) override {
@@ -63,8 +56,8 @@ public:
 	virtual void scrollfunCallBack(GLFWwindow* window, double x, double y) override {
 		//std::cout << "x: " << x << " y: " << y << std::endl;
 		if (control_enable_) {
-			harf_height_ += y;
-			harf_width_ += y;
+			harf_height_ = static_cast<float>(harf_height_ + y);
+			harf_width_ = static_cast<float>(harf_width_ + y);
 		}
 	}
 
@@ -83,7 +76,7 @@ public:
 				last_x = xpos;
 				last_y = ypos;
 
-				float sensitivity = 0.05;
+				float sensitivity = 0.05f;
 				xoffset *= sensitivity;
 				yoffset *= sensitivity;
 

@@ -1,8 +1,12 @@
 #version 450 core
 
-in vec3 fColor;
 out vec4 color;
+in vec3 Fcolor;
+in vec2 fCord;
 
-void main(){
-	color = vec4(fColor, 1.0f);
+uniform sampler2D ourColor;
+
+void main(){	
+	color = texture(ourColor, fCord);
+	//color = vec4(fCord, 0.0f, 1.0f);
 }

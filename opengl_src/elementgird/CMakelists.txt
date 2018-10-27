@@ -16,11 +16,11 @@ source_group("Shader Files" FILES ${shader_dir})
 
 include_directories("include")
 
-add_executable("mulinstance" ${src_dir} ${include_dir} ${shader_dir})
-set_target_properties("mulinstance" PROPERTIES FOLDER "GL")
-target_link_libraries("mulinstance" tool)
-target_link_libraries("mulinstance" PRIVATE glfw)
-target_link_libraries("mulinstance" PRIVATE unofficial::gl3w::gl3w)
+add_executable("elementgird" ${src_dir} ${include_dir} ${shader_dir})
+set_target_properties("elementgird" PROPERTIES FOLDER "GL")
+target_link_libraries("elementgird" tool)
+target_link_libraries("elementgird" PRIVATE glfw)
+target_link_libraries("elementgird" PRIVATE unofficial::gl3w::gl3w)
 
 install(FILES ${shader_dir} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 

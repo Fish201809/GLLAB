@@ -1,141 +1,192 @@
 ﻿
 #include "tool.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
+static const GLfloat cube_vbo_vertex[][3]{
+	{-5.0f, -5.0f, 5.0f},
+	{5.0f, -5.0f,5.0f},
+	{5.0f, 5.0f, 5.0f},
+	{-5.0f, 5.0f,5.0f},
+	{-5.0f, -5.0f, -5.0f},
+	{5.0f, -5.0f, -5.0f},
+	{5.0f, 5.0f, -5.0f},
+	{-5.0f, 5.0f, -5.0f}
+};
 
 
-enum VBOTYPE
+static const GLfloat cube_vbo_color[][3]{
+	{1.0f,0.0f,0.0f},
+	{0.0f,1.0f,0.0f},
+	{0.0f,0.0f,1.0f},
+	{1.0f,0.0f,0.0f},
+	{1.0f,0.0f,0.0f},
+	{0.0f,1.0f,0.0f},
+	{0.0f,0.0f,1.0f},
+	{1.0f,0.0f,0.0f}
+};
+static const GLfloat cube_vbo_texture[][2]{
+	{0.0f, 0.0f},
+	{1.0f, 0.0f},
+	{1.0f, 1.0f},
+	{0.0f, 1.0f},
+	{0.0f, 0.0f},
+	{1.0f, 0.0f},
+	{1.0f, 1.0f},
+	{0.0f, 1.0f}
+};
+
+static GLubyte chess_texture[][8] = {
+	{0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00},
+	{0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff},
+	{0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00},
+	{0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff},
+	{0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00},
+	{0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff},
+	{0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00},
+	{0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff},
+};
+
+static GLubyte color_texture[4 * 3]{
+	255, 0, 0,
+	0, 255, 0,
+	0, 0, 255,
+	255, 255, 0,
+};
+
+
+static GLuint cube_ebo_data[][3]{
+	{0, 1, 2},
+	{0, 2, 3},
+	{4, 6, 5},
+	{4, 7, 6},
+	{0, 5, 1},
+	{0, 4, 5},
+	{3, 2, 6},
+	{3, 6, 7},
+	{1, 5, 2},
+	{2, 5, 6},
+	{4, 0, 3},
+	{4, 3, 7}
+};
+
+
+class ElementSphere: public ExampleTemplate
 {
-	CHESS, NUMVBO
-};
+public:
 
-const int VERTEX_NUM = 11;
-
-static GLfloat vbo_chess_vertex[VERTEX_NUM * VERTEX_NUM][3] = {
-};
-
-static GLuint ebo_chess[(VERTEX_NUM - 1) * (VERTEX_NUM - 1)][6] = {
-};
-
-static GLfloat vbo_chess_color[VERTEX_NUM * VERTEX_NUM][3] = {
-};
-
-GLuint VAO, EBO;
-GLuint VBO[NUMVBO] = {};
-GLuint fbo;
-GLuint buffer;
-ShaderProgram *shader_program = nullptr;
+	virtual void display() override {
+	
+		program_->use();
+		glm::mat4 vp_matrix = camera_->get_matrix();
+		program_->set_uniform_mat4("vp_matrix", vp_matrix);
+		glm::mat4 model_matrix = glm::mat4(1.0f);
+		glm::mat4 translate_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 5.0f, 0.0f));
+		glm::mat4 rotate_matrix = glm::rotate(glm::mat4(1.0f), (float)(glfwGetTime()), glm::vec3(0.0f, 1.0f, 0.0f));
+		program_->set_uniform_mat4("model_matrix", /*rotate_matrix * */translate_matrix);
+		glBindVertexArray(vao_);
+		glBindTexture(GL_TEXTURE_2D, texture_);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+		__super::display();
+	}
 
 
+	virtual void init() override {
+		
+		program_ = std::make_shared<ShaderProgram>();
+		program_->attach_vertex_shader("basic.vert");
+		program_->attach_fragment_shader("basic.frag");
+		program_->link();
+		program_->use();
+		glCreateVertexArrays(1, &vao_);
+		glCreateBuffers(1, &vbo_);
+		glCreateBuffers(1, &ebo_);
+		glNamedBufferStorage(vbo_, sizeof(cube_vbo_vertex) + sizeof(cube_vbo_color) + sizeof(cube_vbo_texture), nullptr, GL_DYNAMIC_STORAGE_BIT);
+		glNamedBufferSubData(vbo_, 0, sizeof(cube_vbo_vertex), cube_vbo_vertex);
+		glNamedBufferSubData(vbo_, sizeof(cube_vbo_vertex), sizeof(cube_vbo_color), cube_vbo_color);
+		glNamedBufferSubData(vbo_, sizeof(cube_vbo_vertex) + sizeof(cube_vbo_texture), sizeof(cube_vbo_texture), cube_vbo_texture);
 
-class ExampleTemplateTest : public ExampleTemplate
-{
-	void init() {
-		//设置随机数
-		std::random_device rd;
-		std::default_random_engine engine(rd());
-		std::uniform_real_distribution<GLfloat> dis(0.0f, 1.0f);
-		auto dice = std::bind(dis, engine);
 
-		//准备顶点数据
-		for (int i = 0; i < VERTEX_NUM; i++) {
-			for (int j = 0; j < VERTEX_NUM; j++) {
-				vbo_chess_vertex[i * VERTEX_NUM + j][0] = static_cast<GLfloat>(i) - VERTEX_NUM / 2;
-				vbo_chess_vertex[i * VERTEX_NUM + j][1] = static_cast<GLfloat>(j) - VERTEX_NUM / 2;
-				vbo_chess_vertex[i * VERTEX_NUM + j][2] = 0.0f;
+		glNamedBufferStorage(ebo_, sizeof(cube_ebo_data), cube_ebo_data, GL_DYNAMIC_STORAGE_BIT);
 
-				GLfloat r = dice();
-				GLfloat g = dice();
-				GLfloat b = dice();
-				vbo_chess_color[i * VERTEX_NUM + j][0] = r;
-				vbo_chess_color[i * VERTEX_NUM + j][1] = g;
-				vbo_chess_color[i * VERTEX_NUM + j][2] = b;
-			}
-		}
-		shader_program = new ShaderProgram;
-		shader_program->attach_vertex_shader("basic.vert");
-		shader_program->attach_fragment_shader("basic.frag");
-		shader_program->link();
-		shader_program->use();
+		glBindVertexArray(vao_);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)sizeof(cube_vbo_vertex));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)(sizeof(cube_vbo_vertex)+ sizeof(cube_vbo_texture)));
 
-		for (int i = 0; i < VERTEX_NUM - 1; i++) {
-			for (int j = 0; j < VERTEX_NUM - 1; j++) {
-				ebo_chess[i * (VERTEX_NUM - 1) + j][0] = i * VERTEX_NUM + j;
-				ebo_chess[i * (VERTEX_NUM - 1) + j][1] = i * VERTEX_NUM + j + 1;
-				ebo_chess[i * (VERTEX_NUM - 1) + j][2] = (i + 1) * VERTEX_NUM + j;
-
-				ebo_chess[i * (VERTEX_NUM - 1) + j][3] = i * VERTEX_NUM + j + 1;
-				ebo_chess[i * (VERTEX_NUM - 1) + j][4] = (i + 1) * VERTEX_NUM + j;
-				ebo_chess[i * (VERTEX_NUM - 1) + j][5] = (i + 1) * VERTEX_NUM + j + 1;
-			}
-		}
-
-		glCreateVertexArrays(1, &VAO);
-		glCreateBuffers(NUMVBO, VBO);
-		glCreateBuffers(1, &EBO);
-		glBindVertexArray(VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO[CHESS]);
-
-		glNamedBufferStorage(VBO[CHESS], sizeof(vbo_chess_vertex) + sizeof(vbo_chess_color), 0, GL_DYNAMIC_STORAGE_BIT);
-		glNamedBufferSubData(VBO[CHESS], 0, sizeof(vbo_chess_vertex), vbo_chess_vertex);
-		glNamedBufferSubData(VBO[CHESS], sizeof(vbo_chess_vertex), sizeof(vbo_chess_color), vbo_chess_color);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)sizeof(vbo_chess_vertex));
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glNamedBufferStorage(EBO, sizeof(ebo_chess), ebo_chess, 0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
 
 		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		//设置纹理
+		//int width, height, nrChannels;
+		//unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		//glGenTextures(1, &texture_);
+		//glBindTexture(GL_TEXTURE_2D, texture_);
+		////glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_UNSIGNED_INT, color_texture);
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		//glGenerateMipmap(GL_TEXTURE_2D);
+		//glBindTexture(GL_TEXTURE_2D, 0);
+		glGenTextures(1, &texture_);
+		glBindTexture(GL_TEXTURE_2D, texture_);
+		// 为当前绑定的纹理对象设置环绕、过滤方式
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// 加载并生成纹理
+		int width, height, nrChannels;
+		/*	unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+			if (data) {
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+				glGenerateMipmap(GL_TEXTURE_2D);
+			}
+			else {
+				std::cout << "Failed to load texture" << std::endl;
+			}
+			stbi_image_free(data);*/
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2,2, 0, GL_RGB, GL_UNSIGNED_BYTE, color_texture);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		/*	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);*/
+		__super::init();
 	}
-
-	void display() {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		/*glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-		glPointSize(15.0f);*/
-		glm::mat4 ortho_matrix = glm::ortho(-(float)(VERTEX_NUM - 1) / 2, (float)(VERTEX_NUM - 1) / 2, -(float)(VERTEX_NUM - 1) / 2, (float)(VERTEX_NUM - 1) / 2);
-		static const GLfloat black[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-		shader_program->use();
-		shader_program->set_uniform_mat4("project", camera_->get_matrix());
-
-		//shader_program->set_uniform_mat4("project", orcho_camera.get_matrix());
-
-		GLfloat time = (float)glfwGetTime();
-
-
-		glm::mat4 rotate_matrix = glm::mat4(1.0f);
-		//rotate_matrix = glm::rotate(rotate_matrix, glm::radians(time) * 10.0f, glm::vec3(0.0, 0.0, 1.0));
-
-		//glm::mat4 translate_matrix_go = glm::mat4(1.0f);
-		//translate_matrix_go = glm::translate(translate_matrix_go, glm::vec3( static_cast<GLfloat> (-VERTEX_NUM / 2), static_cast<GLfloat> (-VERTEX_NUM / 2), 0.0f));
-
-		//glm::mat4 translate_matrix_back = glm::mat4(1.0f);
-		//translate_matrix_back = glm::translate(translate_matrix_back, glm::vec3(static_cast<GLfloat> (VERTEX_NUM  / 2), static_cast<GLfloat> (VERTEX_NUM/ 2), 0.0f));
-
-		/*glm::mat4 look_at_matrix = glm::mat4(1.0f);
-		look_at_matrix = glm::lookAt(glm::vec3(VERTEX_NUM /2, VERTEX_NUM / 2, -1.0f), glm::vec3(VERTEX_NUM / 2, VERTEX_NUM / 2,0.0f), glm::vec3(0.0f, 1.0f, 0.0f));*/
-
-		//glm::mat4 model_matrix = orcho_camera.get_ortho_matrix() * /*translate_matrix_back * */rotate_matrix/* * translate_matrix_go*/;
-		//trans = glm::translate(trans, glm::vec3(static_cast<GLfloat> (VERTEX_NUM / 2), static_cast<GLfloat> (VERTEX_NUM / 2), 0.0f));
-
-		glm::mat4 model_matrix = glm::mat4(1.0f);
-		shader_program->set_uniform_mat4("model_matrix", model_matrix);
-
-		glClearBufferfv(GL_COLOR, 0, black);
-		glBindVertexArray(VAO);
-
-		glDrawElements(GL_TRIANGLES, (VERTEX_NUM - 1) * (VERTEX_NUM - 1) * 6, GL_UNSIGNED_INT, 0);
-	}
-
+	GLuint ebo_;
+	GLuint vao_;
+	GLuint vbo_;
+	GLuint texture_;
+	std::shared_ptr<ShaderProgram> program_;
 };
-
-
-ExampleTemplateTest test;
-
 
 
 int main(int agrc, char *argv[]) {
-	test.run();
+	ElementSphere e;
+	e.run();
 
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
