@@ -35,6 +35,15 @@ ShaderProgram::ShaderProgram() {
 	handle = glCreateProgram();
 }
 
+ShaderProgram::ShaderProgram(const std::string &vert_path, const std::string &frag_path, bool link_flag) {
+	handle = glCreateProgram();
+	attach_vertex_shader(vert_path);
+	attach_fragment_shader(frag_path);
+	if (link_flag) {
+		this->link();
+	}
+}
+
 void ShaderProgram::attach_vertex_shader(const std::string &path) {
 	Native native(path);
 

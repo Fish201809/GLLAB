@@ -20,13 +20,22 @@ void windowSizeCallBack(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-ExampleTemplate::ExampleTemplate() {
-	setting();
+ExampleTemplate::ExampleTemplate():ExampleTemplate("EXTemplate") {
+	
 }
 
-void ExampleTemplate::setting() {
+ExampleTemplate::ExampleTemplate(std::string ex_name) {
+	setting(ex_name);
+}
+
+ExampleTemplate::~ExampleTemplate() {
+	std::cout << __FUNCTION__ << std::endl;
+}
+
+void ExampleTemplate::setting(std::string ex_name)
+{
 	glfwInit();
-	window = glfwCreateWindow(800, 600, "learn opengl", nullptr, nullptr);
+	window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, ex_name.c_str(), nullptr, nullptr);
 	glfwSetWindowSizeCallback(window, windowSizeCallBack);
 	//glfwSetKeyCallback(window, keyfunCallBack);
 	glfwSetScrollCallback(window, scrollfunCallBack);
@@ -43,8 +52,6 @@ void ExampleTemplate::run() {
 		init();
 		set_state();
 		while (glfwWindowShouldClose(window) != GL_TRUE) {
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			elapse_time = static_cast<float>(glfwGetTime());
 			deltaTime = elapse_time - lastFrame;
 			lastFrame = elapse_time;
@@ -57,7 +64,7 @@ void ExampleTemplate::run() {
 		glfwTerminate();
 	}
 	catch (const std::exception& e) {
-		std::cout << e.what();
+		std::cout << e.what() << std::endl;
 	}
 }
 

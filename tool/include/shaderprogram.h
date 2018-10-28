@@ -9,6 +9,7 @@ class ShaderProgram
 {
 public:
 	ShaderProgram();
+	ShaderProgram(const std::string &vert_path, const std::string &frag_path, bool link_flag = true);
 	void attach_vertex_shader(const std::string &path);
 	void attach_fragment_shader(const std::string &path);
 

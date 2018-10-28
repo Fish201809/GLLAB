@@ -11,9 +11,6 @@ source_group("Source Files" FILES ${src_dir})
 file(GLOB include_dir include/*.h)
 source_group("Include Files" FILES ${include_dir})
 
-file(GLOB shader_dir shader/*.vert shader/*.frag)
-source_group("Shader Files" FILES ${shader_dir})
-
 include_directories("include")
 
 add_executable("mulinstance" ${src_dir} ${include_dir} ${shader_dir})
@@ -21,8 +18,3 @@ set_target_properties("mulinstance" PROPERTIES FOLDER "GL")
 target_link_libraries("mulinstance" tool)
 target_link_libraries("mulinstance" PRIVATE glfw)
 target_link_libraries("mulinstance" PRIVATE unofficial::gl3w::gl3w)
-
-install(FILES ${shader_dir} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-
-#install(TARGETS ${EXE_TARGET_NAME} DESTINATION BIN)

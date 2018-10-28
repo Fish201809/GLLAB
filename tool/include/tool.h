@@ -17,21 +17,28 @@
 #include "plane.h"
 #include "cube.h"
 #include "loadimage.h"
+#include "shader_manager.h"
 
 
 #pragma warning( disable : 4244 )
 
+
+extern std::shared_ptr<Camera> camera_;
+
 using namespace std;
 
 
+constexpr int WIN_WIDTH = 800;
+constexpr int WIN_HEIGHT = 600;
 
 class ExampleTemplate
 {
 public:
 	ExampleTemplate();
-	
+	ExampleTemplate(std::string ex_name);
+	virtual ~ExampleTemplate();
 	GLFWwindow *window = nullptr;
-	void setting();
+	void setting(std::string ex_name);
 
 public:
 	virtual void set_state() = 0;
@@ -43,8 +50,6 @@ public:
 	float elapse_time = 0.0f;
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
-
-
 };
 
 

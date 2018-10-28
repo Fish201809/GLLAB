@@ -14,9 +14,6 @@ source_group("Source Files" FILES ${src_dir})
 file(GLOB include_dir include/*.h)
 source_group("Include Files" FILES ${include_dir})
 
-file(GLOB shader_dir shader/*.vert shader/*.frag)
-source_group("Shader Files" FILES ${shader_dir})
-
 include_directories("include")
 
 message(STATUS ${CMAKE_COMMAND} )
@@ -25,12 +22,8 @@ find_package(Qt5Core CONFIG REQUIRED)
    
 
 
-add_executable(feedback ${src_dir} ${include_dir} ${shader_dir})
+add_executable(feedback ${src_dir} ${include_dir})
 set_target_properties(feedback PROPERTIES FOLDER "GL")
 target_link_libraries(feedback tool)
 target_link_libraries(feedback PRIVATE glfw)
 target_link_libraries(feedback PRIVATE unofficial::gl3w::gl3w)
-
-install(FILES ${shader_dir} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-#install(TARGETS feedback DESTINATION BIN)

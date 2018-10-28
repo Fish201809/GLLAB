@@ -5,6 +5,10 @@
 
 extern std::shared_ptr<Camera> camera_;
 
+Plane::Plane() {
+
+}
+
 void Plane::display() {
 		
 		program_->use();
@@ -41,8 +45,8 @@ void Plane::init() {
 	};
 
 	program_ = std::make_shared<ShaderProgram>();
-	program_->attach_vertex_shader(FileSystem::getPath("shaders/plane.vert"));
-	program_->attach_fragment_shader(FileSystem::getPath("shaders/plane.frag"));
+	program_->attach_vertex_shader(FileSystem::getPath("shaders/tbasic.vert"));
+	program_->attach_fragment_shader(FileSystem::getPath("shaders/tbasic.frag"));
 	program_->link();
 	program_->use();
 	glCreateVertexArrays(1, &vao_);

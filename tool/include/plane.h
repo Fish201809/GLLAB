@@ -18,9 +18,7 @@
 class Plane
 {
 public:
-	Plane() {
-
-	}
+	Plane();
 	virtual void display();
 	virtual void init();
 	GLuint vao_;

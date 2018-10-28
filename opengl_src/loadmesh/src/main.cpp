@@ -1,70 +1,68 @@
-﻿#include <gl/gl3w.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-#include "shaderprogram.h"
-#include "vgl.h"
-#include "filesystem.h"
-using namespace std;
+﻿#include "tool.h"
+#include "model.h"
 
-static const GLfloat vbo_chess_vertex[] = {
-	0.5f, -0.5f, 0.0f,
-	0.5f, 0.5f, 0.0f,
-	-0.5f, 0.5f, 0.0f,
-	0.5f,-0.5f,0.0f,
-	-0.5f, 0.5f,0.0f,
-	-0.5f, -0.5f, 0.0f
+
+class EXFrameBufferTextureAttach : public ExampleTemplate
+{
+public:
+	EXFrameBufferTextureAttach(std::string ex_name) :ExampleTemplate(ex_name) {
+		plane_ = std::make_shared<Plane>();
+		cube_ = std::make_shared<Cube>();
+
+		model_ = std::make_shared<Model>(FileSystem::getPath("model/nanosuit/nanosuit.obj"));
+
+	}
+	virtual ~EXFrameBufferTextureAttach() {
+	}
+	virtual void display() override {
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+		plane_->display();
+		frame_program_->set_uniform_mat4("vp_matrix", camera_->get_matrix());
+		frame_program_->set_uniform_mat4("model_matrix", glm::mat4(1.0f));
+		frame_program_->use();
+		model_->Draw(*frame_program_);
+	}
+
+	virtual void init() override {
+		plane_->init();
+		cube_->init();
+
+		frame_program_ = std::make_shared<ShaderProgram>();
+		frame_program_->attach_vertex_shader(FileSystem::getPath("shaders/test.vert"));
+		//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame.frag"));
+		//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_lnversion.frag"));
+		//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_grayscale.frag"));
+		//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_grayscale_widget.frag"));
+		//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_kernel.frag"));
+		//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_blur.frag"));
+		frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/test.frag"));
+		frame_program_->link();
+	}
+	virtual void set_state() override {
+		glEnable(GL_DEPTH_TEST);
+	}
+private:
+	std::shared_ptr<Plane> plane_;
+	std::shared_ptr<Cube> cube_;
+
+	GLuint vao_;
+	GLuint vbo_;
+	GLuint fbo_;
+	GLuint texture_;
+	GLuint texture_depth_stencil_;
+	shared_ptr<ShaderProgram> frame_program_ = nullptr;
+	
+	std::shared_ptr<Model> model_ = nullptr;
 };
 
-GLuint vao, vbo;
-GLuint fbo;
-GLuint buffer;
 
-void init() {
-	//	DoTheImportThing(FileSystem::getPath("model/nanosuit/nanosuit.obj"));
-	ShaderProgram shader_program;
-	shader_program.attach_vertex_shader("basic.vert");
-	shader_program.attach_fragment_shader("basic.frag");
-	shader_program.link();
-	shader_program.use();
-
-	glCreateBuffers(1, &vbo);
-	glNamedBufferStorage(vbo, sizeof(vbo_chess_vertex), vbo_chess_vertex, 0);
-
-	glCreateVertexArrays(1, &vao);
-
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(0);
-	glBindVertexArray(0);
-}
-
-void display() {
-	static const GLfloat black[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-	glClearBufferfv(GL_COLOR, 0, black);
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-}
 
 int main(int agrc, char *argv[]) {
-	try {
-		glfwInit();
-
-		GLFWwindow *window = glfwCreateWindow(640, 480, "learn opengl", nullptr, nullptr);
-		glfwMakeContextCurrent(window);
-		gl3wInit();
-		init();
-		while (glfwWindowShouldClose(window) != GL_TRUE) {
-			display();
-			glfwSwapBuffers(window);
-			glfwPollEvents();
-		}
-		glfwDestroyWindow(window);
-		glfwTerminate();
-	}
-	catch (const std::exception& e) {
-		std::cout << e.what();
-	}
+	//	EXFrameBufferRenderAttach e("Off-screen rendering - Texture");
+	EXFrameBufferTextureAttach e2("Off-screen rendering - Texture");
+	e2.run();
 
 	return 0;
 }

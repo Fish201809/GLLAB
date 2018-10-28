@@ -9,9 +9,12 @@ source_group("Source Files" FILES ${src_dir})
 file(GLOB include_dir include/*.h)
 source_group("Include Files" FILES ${include_dir})
 
+file(GLOB shader_dir ${CMAKE_SOURCE_DIR}/resource/shaders/*.vert ${CMAKE_SOURCE_DIR}/resource/shaders/*.frag)
+source_group("Shader Files" FILES ${shader_dir})
+
 include_directories("include")
 
-add_library(tool ${src_dir} ${include_dir})
+add_library(tool ${src_dir} ${include_dir} ${shader_dir})
 set_target_properties(tool PROPERTIES FOLDER tool)
 target_link_libraries(tool PRIVATE glm)
 target_link_libraries(tool PRIVATE unofficial::gl3w::gl3w)

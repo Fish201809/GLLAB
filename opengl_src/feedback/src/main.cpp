@@ -25,8 +25,8 @@ int main(int agrc, char *argv[]) {
 		gl3wInit();
 
 		ShaderProgram shader_program;
-		//shader_program.attach_fragment_shader("basic.frag");
-		shader_program.attach_vertex_shader("basic.vert");
+		//shader_program.attach_fragment_shader("tbasic.frag");
+		shader_program.attach_vertex_shader("tbasic.vert");
 		shader_program.link();
 		shader_program.use();
 

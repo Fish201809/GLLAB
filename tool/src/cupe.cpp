@@ -66,8 +66,8 @@ void Cube::init() {
 		{4, 3, 7}
 	};
 	program_ = std::make_shared<ShaderProgram>();
-	program_->attach_vertex_shader(FileSystem::getPath("shaders/basic.vert"));
-	program_->attach_fragment_shader(FileSystem::getPath("shaders/basic.frag"));
+	program_->attach_vertex_shader(FileSystem::getPath("shaders/tbasic.vert"));
+	program_->attach_fragment_shader(FileSystem::getPath("shaders/tbasic.frag"));
 	program_->link();
 	program_->use();
 	glCreateVertexArrays(1, &vao_);
