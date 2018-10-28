@@ -32,6 +32,7 @@ public:
 		plane_->init();
 		cube_->init();
 		
+
 		frame_program_ = std::make_shared<ShaderProgram>();
 		frame_program_->attach_vertex_shader(FileSystem::getPath("shaders/frame.vert"));
 		//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame.frag"));

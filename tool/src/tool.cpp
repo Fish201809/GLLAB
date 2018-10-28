@@ -26,6 +26,16 @@ ExampleTemplate::ExampleTemplate():ExampleTemplate("EXTemplate") {
 
 ExampleTemplate::ExampleTemplate(std::string ex_name) {
 	setting(ex_name);
+	
+	//ResourceManager::LoadShaderProgram(FileSystem::getPath("shaders/frame.vert"))
+	//frame_program_->attach_vertex_shader(FileSystem::getPath("shaders/frame.vert"));
+	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame.frag"));
+	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_lnversion.frag"));
+	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_grayscale.frag"));
+	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_grayscale_widget.frag"));
+	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_kernel.frag"));
+	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_blur.frag"));
+	//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_edge_detection.frag"));
 }
 
 ExampleTemplate::~ExampleTemplate() {

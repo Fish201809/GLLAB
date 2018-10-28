@@ -16,8 +16,7 @@
 #include "filesystem.h"
 #include "plane.h"
 #include "cube.h"
-#include "loadimage.h"
-#include "shader_manager.h"
+#include "resource_manager.h"
 
 
 #pragma warning( disable : 4244 )

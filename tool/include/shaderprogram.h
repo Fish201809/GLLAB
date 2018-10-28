@@ -14,6 +14,7 @@ public:
 	void attach_fragment_shader(const std::string &path);
 
 	bool set_uniform_mat4(const std::string &name, const glm::mat4 &mat);
+	bool set_uniform_1i(const std::string &name, GLint texture_id);
 	void link();
 	void use();
 	GLuint get_handle();

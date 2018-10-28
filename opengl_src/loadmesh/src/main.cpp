@@ -18,11 +18,18 @@ public:
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
-		plane_->display();
+
+		//plane_->display();
+		frame_program_->use();
 		frame_program_->set_uniform_mat4("vp_matrix", camera_->get_matrix());
 		frame_program_->set_uniform_mat4("model_matrix", glm::mat4(1.0f));
-		frame_program_->use();
-		model_->Draw(*frame_program_);
+	
+
+	
+		//cube_->display();
+		
+		model_->render(*frame_program_);
+		plane_->display();
 	}
 
 	virtual void init() override {

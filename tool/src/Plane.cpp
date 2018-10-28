@@ -1,6 +1,8 @@
 ﻿#include "Plane.h"
 #include "tool.h"
-#include "loadimage.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 
 extern std::shared_ptr<Camera> camera_;
@@ -12,8 +14,7 @@ Plane::Plane() {
 void Plane::display() {
 		
 		program_->use();
-		glm::mat4 vp_matrix = camera_->get_matrix();
-		program_->set_uniform_mat4("vp_matrix", vp_matrix);
+		program_->set_uniform_mat4("vp_matrix", camera_->get_matrix());
 		glm::mat4 model_matrix = glm::mat4(1.0f);
 		glm::mat4 scale_matrix = glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 0.0f, 10.0f));
 		/*	glm::mat4 translate_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 0.0f, 0.0f));
@@ -23,7 +24,8 @@ void Plane::display() {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture_);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(0);
 }
 
 void Plane::init() {
@@ -48,7 +50,6 @@ void Plane::init() {
 	program_->attach_vertex_shader(FileSystem::getPath("shaders/tbasic.vert"));
 	program_->attach_fragment_shader(FileSystem::getPath("shaders/tbasic.frag"));
 	program_->link();
-	program_->use();
 	glCreateVertexArrays(1, &vao_);
 	glCreateBuffers(1, &vbo_);
 	glNamedBufferStorage(vbo_, sizeof(cube_data) + sizeof(plane_cord), nullptr, GL_DYNAMIC_STORAGE_BIT);
@@ -70,9 +71,10 @@ void Plane::init() {
 	int width, height, channels;
 
 	
-	GLubyte *data = load_image("image/chess.jpg", width, height, channels);
+	unsigned char *data = stbi_load(FileSystem::getPath("image/chess.jpg").c_str(), &width, &height, &channels, 0);
 	if (data == nullptr) {
 		std::cout << "loag image failed" << std::endl;
+		stbi_image_free(data);
 	}
 	else {
 
@@ -83,6 +85,6 @@ void Plane::init() {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);
-		free(data);
+		stbi_image_free(data);
 	}
 }

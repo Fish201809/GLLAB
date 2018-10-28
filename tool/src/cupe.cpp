@@ -1,6 +1,8 @@
 ﻿#include "cube.h"
 #include "tool.h"
+#include "filesystem.h"
 
+#include <stb_image.h>
 
 extern std::shared_ptr<Camera> camera_;
 
@@ -15,6 +17,7 @@ void Cube::display() {
 	glBindVertexArray(vao_);
 	glBindTexture(GL_TEXTURE_2D, texture_);
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
 }
 
@@ -97,7 +100,8 @@ void Cube::init() {
 
 	//设置纹理
 	int width, height, nrChannels;
-	unsigned char *data = load_image("image/guaishao.jpg", width, height, nrChannels);
+	unsigned char *data = stbi_load(FileSystem::getPath("image/guaishao.jpg").c_str(), &width, &height, &nrChannels, 0);
+	//unsigned char *data = load_image("image/guaishao.jpg", width, height, nrChannels);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures(1, &texture_);
 	glBindTexture(GL_TEXTURE_2D, texture_);
@@ -108,6 +112,5 @@ void Cube::init() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	free(data);
-
+	stbi_image_free(data);
 }

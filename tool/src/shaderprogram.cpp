@@ -113,6 +113,12 @@ bool ShaderProgram::set_uniform_mat4(const std::string &name, const glm::mat4 &m
 	return true;
 }
 
+bool ShaderProgram::set_uniform_1i(const std::string &name, GLint texture_id) {
+	GLint location_id = glGetUniformLocation(handle, name.c_str());
+	glUniform1i(location_id, texture_id);
+	return true;
+}
+
 void ShaderProgram::link() {
 	glLinkProgram(handle);
 	check_program_status(handle, GL_LINK_STATUS);
