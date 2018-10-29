@@ -26,20 +26,9 @@ ExampleTemplate::ExampleTemplate():ExampleTemplate("EXTemplate") {
 
 ExampleTemplate::ExampleTemplate(std::string ex_name) {
 	setting(ex_name);
-	
-	//ResourceManager::LoadShaderProgram(FileSystem::getPath("shaders/frame.vert"))
-	//frame_program_->attach_vertex_shader(FileSystem::getPath("shaders/frame.vert"));
-	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame.frag"));
-	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_lnversion.frag"));
-	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_grayscale.frag"));
-	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_grayscale_widget.frag"));
-	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_kernel.frag"));
-	////frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_blur.frag"));
-	//frame_program_->attach_fragment_shader(FileSystem::getPath("shaders/frame_edge_detection.frag"));
 }
 
 ExampleTemplate::~ExampleTemplate() {
-	std::cout << __FUNCTION__ << std::endl;
 }
 
 void ExampleTemplate::setting(std::string ex_name)
@@ -54,11 +43,18 @@ void ExampleTemplate::setting(std::string ex_name)
 
 	glfwMakeContextCurrent(window);
 	gl3wInit();
+
+	
 }
 
 
+void ExampleTemplate::init() {
+
+}
+
 void ExampleTemplate::run() {
 	try {
+		LoadResource();
 		init();
 		set_state();
 		while (glfwWindowShouldClose(window) != GL_TRUE) {
@@ -78,13 +74,36 @@ void ExampleTemplate::run() {
 	}
 }
 
+void ExampleTemplate::LoadResource() {
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/tbasic.vert"),
+									FileSystem::getPath("shaders/tbasic.frag")), "tbasic");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/frame.vert"),
+									   FileSystem::getPath("shaders/frame.frag")), "frame");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/frame.vert"),
+									   FileSystem::getPath("shaders/frame_blur.frag")), "frame_blur");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/frame.vert"),
+									   FileSystem::getPath("shaders/frame_edge_detection.frag")), "frame_edge_detection");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/frame.vert"),
+									   FileSystem::getPath("shaders/frame_grayscale.frag")), "frame_grayscale");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/frame.vert"),
+									   FileSystem::getPath("shaders/frame_grayscale_widget.frag")), "frame_grayscale_widget");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/frame.vert"),
+									   FileSystem::getPath("shaders/frame_kernel.frag")), "frame_kernel");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/frame.vert"),
+									   FileSystem::getPath("shaders/frame_lnversion.frag")), "frame_lnversion");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/test.vert"),
+									FileSystem::getPath("shaders/test.frag")), "test");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/cbasic.vert"),
+									FileSystem::getPath("shaders/light_mul.frag")), "light_mul");
+}
+
 void ExampleTemplate::process_key(GLFWwindow *window) {
 	
 	if (glfwGetKey(window, GLFW_KEY_W)) {
-		camera_->world_position_ -= camera_->front_ * camera_->speed_ * deltaTime;
+		camera_->world_position_ -= camera_->front_ * camera_->speed_front_ * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_S)) {
-		camera_->world_position_ += camera_->front_ * camera_->speed_ * deltaTime;
+		camera_->world_position_ += camera_->front_ * camera_->speed_front_ * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A)) {
 		camera_->world_position_ += camera_->right_ * camera_->speed_ * deltaTime;

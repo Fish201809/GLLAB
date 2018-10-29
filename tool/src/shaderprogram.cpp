@@ -119,6 +119,13 @@ bool ShaderProgram::set_uniform_1i(const std::string &name, GLint texture_id) {
 	return true;
 }
 
+
+bool ShaderProgram::set_uniform_vec3(const std::string &name, float x, float y, float z) {
+	GLint location_id = glGetUniformLocation(handle, name.c_str());
+	glUniform3f(location_id, x, y, z);
+	return true;
+}
+
 void ShaderProgram::link() {
 	glLinkProgram(handle);
 	check_program_status(handle, GL_LINK_STATUS);

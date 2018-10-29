@@ -13,6 +13,5 @@ std::ostream &operator <<(std::ostream &os, const Error &e) {
 	if (!e.msg.empty()) {
 		os << ": " << e.msg;
 	}
-
 	return os;
 }

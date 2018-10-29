@@ -8,7 +8,8 @@
 class Camera
 {
 public:
-	float speed_ = 30.0f;
+	float speed_ = 50.0f;
+	float speed_front_ = 130.0f;
 
 	glm::vec3 up_ = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 right_ = glm::vec3(1.0f, 0.0f, 0.0f);

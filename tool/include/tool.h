@@ -16,7 +16,7 @@
 #include "filesystem.h"
 #include "plane.h"
 #include "cube.h"
-#include "resource_manager.h"
+#include "shader_Loader.h"
 
 
 #pragma warning( disable : 4244 )
@@ -41,9 +41,10 @@ public:
 
 public:
 	virtual void set_state() = 0;
-	virtual void init() = 0;
+	virtual void init();
 	virtual void display() = 0;
 	virtual void run();
+	virtual void LoadResource();
 	void process_key(GLFWwindow *window);
 	float frame_rate = 0.0f;
 	float elapse_time = 0.0f;

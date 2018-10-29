@@ -33,15 +33,25 @@ public:
 	//gama矫正
 	bool gammaCorrection;
 
+	glm::mat4 model_matrix_;
+
 	Model(const string &path, bool gamma = false) : gammaCorrection(gamma) {
 		loadmesh(path);
 	}
 
 	void render(ShaderProgram &shader) {
+
+		glm::mat4 vp_matrix = camera_->get_matrix();
+		shader.use();
+		shader.set_uniform_mat4("vp_matrix", vp_matrix);
+		shader.set_uniform_mat4("model_matrix", model_matrix_);
+
 		for (unsigned int i = 0; i < meshes.size(); i++)
 			meshes[i].draw(shader);
 	}
-
+	void setMatrix(glm::mat4 model_matrix) {
+		model_matrix_ = model_matrix;
+	}
 private:
 
 	void loadmesh(const string &path) {

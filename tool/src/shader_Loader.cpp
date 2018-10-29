@@ -103,3 +103,16 @@
 //	return texture;
 //}
 //
+
+#include "shader_Loader.h"
+
+
+std::map<std::string, std::unique_ptr<ShaderProgram>>  ShaderLoader::Shaders;
+
+void ShaderLoader::LoadShaderProgram(std::unique_ptr<ShaderProgram> shader_program, const std::string &name) {
+	Shaders[name] = std::move(shader_program);
+}
+
+ShaderProgram& ShaderLoader::GetShaderProgram(std::string name) {
+	return *Shaders[name];
+}

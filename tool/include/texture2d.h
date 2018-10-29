@@ -1,28 +1,24 @@
 ﻿#pragma once
 
 #include <gl/gl3w.h>
-
+#include <string>
+#include <vector>
 
 class Texture2D
 {
 public:
-	// Holds the ID of the texture object, used for all texture operations to reference to this particlar texture
-	GLuint id;
-	// Texture image dimensions
-	GLuint width, height; // Width and height of loaded image in pixels
-	// Texture Format
-	GLuint internal_format; // Format of texture object
-	GLuint image_format; // Format of loaded image
-	// Texture configuration
-	GLuint wrap_s; // Wrapping mode on S axis
-	GLuint wrap_t; // Wrapping mode on T axis
-	GLuint filter_min; // Filtering mode if texture pixels < screen pixels
-	GLuint filter_max; // Filtering mode if texture pixels > screen pixels
-	// Constructor (sets default texture modes)
-	Texture2D();
-	// Generates texture from image data
-	void generate(GLuint width, GLuint height, unsigned char* data);
-	// Binds the texture as the current active GL_TEXTURE_2D texture object
+	Texture2D(std::vector<GLfloat> &data, int width, int height, int channel);
+	Texture2D(int width, int height, int format);
+	Texture2D(std::string name);
+
+	GLuint get_handle() { return handle_; }
 	void bind() const;
+private:
+	GLuint handle_;
+	int width, height;
+	int nrChannels;
+private:
+	void generate(const std::string &path);
+	void generate(int width, int height, int format);
 };
 
