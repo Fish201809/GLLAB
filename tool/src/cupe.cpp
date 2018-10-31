@@ -4,7 +4,7 @@
 
 #include <stb_image.h>
 
-extern std::shared_ptr<Camera> camera_;
+extern std::shared_ptr<Camera> gcamera;
 
 static const GLfloat cube_vbo_vertex[]{
 	 -5.0f, -5.0f, -5.0f,  0.0f,  0.0f, -1.0f,
@@ -143,10 +143,10 @@ void Cube::set_model_matrix(glm::mat4 model_matrix) {
 
 void Cube::Render(ShaderProgram &shader_program) {
 
-	glm::mat4 vp_matrix = camera_->get_matrix();
 	shader_program.use();
-	shader_program.set_uniform_mat4("vp_matrix", vp_matrix);
-	shader_program.set_uniform_mat4("model_matrix", model_matrix_);
+	shader_program.set_uniform_mat4("uViewMatrix", gcamera->get_view_matrix());
+	shader_program.set_uniform_mat4("uProjectMatrix", gcamera->get_project_matrix());
+	shader_program.set_uniform_mat4("uModelMatrix", model_matrix_);
 
 	glBindVertexArray(vao_);
 	texture_->bind();
@@ -178,7 +178,7 @@ void Cube::Init() {
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	//glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(3);
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
 
 	glBindVertexArray(0);

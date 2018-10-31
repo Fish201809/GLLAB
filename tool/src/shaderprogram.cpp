@@ -120,9 +120,27 @@ bool ShaderProgram::set_uniform_1i(const std::string &name, GLint texture_id) {
 }
 
 
+bool ShaderProgram::set_uniform_1ui(const std::string &name, GLuint texture_id) {
+	GLint location_id = glGetUniformLocation(handle, name.c_str());
+	glUniform1ui(location_id, texture_id);
+	return true;
+}
+
 bool ShaderProgram::set_uniform_vec3(const std::string &name, float x, float y, float z) {
 	GLint location_id = glGetUniformLocation(handle, name.c_str());
 	glUniform3f(location_id, x, y, z);
+	return true;
+}
+
+bool ShaderProgram::set_uniform_vec4(const std::string &name, float x, float y, float z, float w) {
+	GLint location_id = glGetUniformLocation(handle, name.c_str());
+	glUniform4f(location_id, x, y, z, w);
+	return true;
+}
+
+bool ShaderProgram::set_uniform_1f(const std::string &name, GLfloat value) {
+	GLint location_id = glGetUniformLocation(handle, name.c_str());
+	glUniform1f(location_id, value);
 	return true;
 }
 

@@ -24,5 +24,13 @@ glm::mat4 OrthoCamera::get_matrix()
 	//std::cout << "up: [ x: " << up_.x << ", y: " << up_.y << ", z: " << up_.z << std::endl;
 
 	//return glm::ortho(-harf_width_, harf_width_, -harf_height_, harf_height_) * 
-	return glm::ortho(-harf_width_, harf_width_, -harf_height_, harf_height_, 0.1f, 1000.0f) * glm::lookAt(world_position_, world_position_ - front_ * distance_, up_);
+	return glm::ortho(-harf_width_, harf_width_, -harf_height_, harf_height_, 0.1f, 1000.0f) * glm::lookAt(World_position(), World_position() - front_ * distance_, up_);
+}
+
+glm::mat4 OrthoCamera::get_project_matrix() {
+	return glm::ortho(-harf_width_, harf_width_, -harf_height_, harf_height_, 0.1f, 1000.0f);
+}
+
+glm::mat4 OrthoCamera::get_view_matrix() {
+	return glm::lookAt(World_position(), World_position() - front_ * distance_, up_);
 }

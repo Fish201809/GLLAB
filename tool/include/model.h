@@ -41,7 +41,7 @@ public:
 
 	void render(ShaderProgram &shader) {
 
-		glm::mat4 vp_matrix = camera_->get_matrix();
+		glm::mat4 vp_matrix = gcamera->get_matrix();
 		shader.use();
 		shader.set_uniform_mat4("vp_matrix", vp_matrix);
 		shader.set_uniform_mat4("model_matrix", model_matrix_);

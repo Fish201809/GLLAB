@@ -1,24 +1,29 @@
 ﻿#include "tool.h"
 
 
-std::shared_ptr<Camera> camera_ = std::make_shared<ProjectionCamera>();
+std::shared_ptr<Camera> gcamera = std::make_shared<ProjectionCamera>();
 
 void keyfunCallBack(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	camera_->keyfunCallBack(window, key, scancode, action, mods);
+	gcamera->keyfunCallBack(window, key, scancode, action, mods);
 }
 
 void scrollfunCallBack(GLFWwindow* window, double x, double y) {
-	camera_->scrollfunCallBack(window, x, y);
+	gcamera->scrollfunCallBack(window, x, y);
 }
 
 void mouseCallBack(GLFWwindow* window, double xpos, double ypos) {
-	camera_->mouseCallBack(window, xpos, ypos);
+	gcamera->mouseCallBack(window, xpos, ypos);
+	ExampleTemplate::xpos = xpos;
+	ExampleTemplate::ypos = WIN_HEIGHT - ypos;
 }
 
 void windowSizeCallBack(GLFWwindow* window, int width, int height) {
 	//std::cout << "width: " << width << " height: " << height << std::endl;
 	glViewport(0, 0, width, height);
 }
+
+int ExampleTemplate::xpos = 0;
+int ExampleTemplate::ypos = 0;
 
 ExampleTemplate::ExampleTemplate():ExampleTemplate("EXTemplate") {
 	
@@ -38,24 +43,18 @@ void ExampleTemplate::setting(std::string ex_name)
 	glfwSetWindowSizeCallback(window, windowSizeCallBack);
 	//glfwSetKeyCallback(window, keyfunCallBack);
 	glfwSetScrollCallback(window, scrollfunCallBack);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouseCallBack);
 
 	glfwMakeContextCurrent(window);
 	gl3wInit();
-
-	
 }
 
 
-void ExampleTemplate::init() {
-
-}
 
 void ExampleTemplate::run() {
 	try {
 		LoadResource();
-		init();
 		set_state();
 		while (glfwWindowShouldClose(window) != GL_TRUE) {
 			elapse_time = static_cast<float>(glfwGetTime());
@@ -94,22 +93,28 @@ void ExampleTemplate::LoadResource() {
 	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/test.vert"),
 									FileSystem::getPath("shaders/test.frag")), "test");
 	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/cbasic.vert"),
-									FileSystem::getPath("shaders/light_mul.frag")), "light_mul");
+									FileSystem::getPath("shaders/light_phone.frag")), "light_phone");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/cbasic.vert"),
+									FileSystem::getPath("shaders/drawindex.frag")), "drawindex");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/light_view.vert"),
+									FileSystem::getPath("shaders/light_view.frag")), "light_view");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/cbasic.vert"),
+									FileSystem::getPath("shaders/ucolor.frag")), "ucolor");
 }
 
 void ExampleTemplate::process_key(GLFWwindow *window) {
 	
 	if (glfwGetKey(window, GLFW_KEY_W)) {
-		camera_->world_position_ -= camera_->front_ * camera_->speed_front_ * deltaTime;
+		gcamera->World_position(gcamera->World_position() - gcamera->front_ * gcamera->speed_front_ * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_S)) {
-		camera_->world_position_ += camera_->front_ * camera_->speed_front_ * deltaTime;
+		gcamera->World_position(gcamera->World_position() + gcamera->front_ * gcamera->speed_front_ * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_A)) {
-		camera_->world_position_ += camera_->right_ * camera_->speed_ * deltaTime;
+		gcamera->World_position(gcamera->World_position() + gcamera->right_ * gcamera->speed_ * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D)) {
-		camera_->world_position_ -= camera_->right_ * camera_->speed_ * deltaTime;
+		gcamera->World_position(gcamera->World_position() - gcamera->right_ * gcamera->speed_ * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(window, GL_TRUE);

@@ -22,7 +22,7 @@
 #pragma warning( disable : 4244 )
 
 
-extern std::shared_ptr<Camera> camera_;
+extern std::shared_ptr<Camera> gcamera;
 
 using namespace std;
 
@@ -41,7 +41,6 @@ public:
 
 public:
 	virtual void set_state() = 0;
-	virtual void init();
 	virtual void display() = 0;
 	virtual void run();
 	virtual void LoadResource();
@@ -50,6 +49,9 @@ public:
 	float elapse_time = 0.0f;
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
+
+	static int xpos;
+	static int ypos;
 };
 
 

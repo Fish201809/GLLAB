@@ -3,7 +3,7 @@
 #include "filesystem.h"
 
 
-extern std::shared_ptr<Camera> camera_;
+extern std::shared_ptr<Camera> gcamera;
 
 
 Plane::Plane(std::unique_ptr<Texture2D> texture) {
@@ -14,7 +14,7 @@ Plane::Plane(std::unique_ptr<Texture2D> texture) {
 void Plane::Render(ShaderProgram &shader_program)
 {
 	shader_program.use();
-	shader_program.set_uniform_mat4("vp_matrix", camera_->get_matrix());
+	shader_program.set_uniform_mat4("vp_matrix", gcamera->get_matrix());
 	shader_program.set_uniform_mat4("model_matrix", model_matrix_);
 	glBindVertexArray(vao_);
 	glActiveTexture(GL_TEXTURE0);

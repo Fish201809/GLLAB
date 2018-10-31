@@ -15,7 +15,10 @@ public:
 
 	bool set_uniform_mat4(const std::string &name, const glm::mat4 &mat);
 	bool set_uniform_1i(const std::string &name, GLint texture_id);
+	bool set_uniform_1ui(const std::string &name, GLuint texture_id);
 	bool set_uniform_vec3(const std::string &name, float x, float y, float z);
+	bool set_uniform_vec4(const std::string &name, float x, float y, float z, float w);
+	bool set_uniform_1f(const std::string &name, GLfloat value);
 	void link();
 	void use();
 	GLuint get_handle();

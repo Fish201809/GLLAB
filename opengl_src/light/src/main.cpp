@@ -26,9 +26,12 @@ public:
 	}
 	glm::vec3 Color() const { return color_; }
 	void Color(glm::vec3 val) { color_ = val; }
+	glm::vec3 Position() const { return position_; }
+	void Position(glm::vec3 val) { position_ = val; }
 private:
 	shared_ptr<Cube> light_source_geo = nullptr;
 	glm::vec3 color_ = glm::vec3(1.0f, 1.0f, 1.0f);
+	glm::vec3 position_ = glm::vec3(-40.0f, 25.0f, -20.0f);
 };
 
 
@@ -57,11 +60,11 @@ private:
 };
 
 
-class EXLight : public ExampleTemplate
+class EXMoveLight : public ExampleTemplate
 {
 public:
-	EXLight() {
-		floor_ = std::make_shared<Plane>(std::make_unique<Texture2D>(FileSystem::getPath("image/chess.jpg")));
+	EXMoveLight() {
+		//floor_ = std::make_shared<Plane>(std::make_unique<Texture2D>(FileSystem::getPath("image/chess.jpg")));
 		toy_ = std::make_shared<Toy>();
 		light_source_ = std::make_shared<LightSource>();
 	}
@@ -70,20 +73,24 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 		glm::mat4 model_matrix = glm::scale(glm::mat4(1.0f), glm::vec3(15.0f, 1.0f, 15.0f));
-		floor_->set_model_matrix(model_matrix);
-		floor_->Render(ShaderLoader::GetShaderProgram("tbasic"));
+		/*floor_->set_model_matrix(model_matrix);
+		floor_->Render(ShaderLoader::GetShaderProgram("tbasic"));*/
 		light_source_->Render();
 		glm::vec3 lColor = light_source_->Color();
-		ShaderLoader::GetShaderProgram("light_mul").use();
-		ShaderLoader::GetShaderProgram("light_mul").set_uniform_vec3("lColor", lColor.x, lColor.y, lColor.z);
-		toy_->Render(ShaderLoader::GetShaderProgram("light_mul"));
+		glm::vec3 lPosition = light_source_->Position();
+		glm::vec3 lCameraPosition = gcamera->World_position();
+		ShaderLoader::GetShaderProgram("light_view").use();
+		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("ulight_color", lColor.x, lColor.y, lColor.z);
+		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("ulight_position", lPosition.x, lPosition.y, lPosition.z);
+		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("ucamera_position", lCameraPosition.x, lCameraPosition.y, lCameraPosition.z);
+		toy_->Render(ShaderLoader::GetShaderProgram("light_view"));
 	}
 
 	virtual void set_state() override {
 		glEnable(GL_DEPTH_TEST);
 	}
 public:
-	shared_ptr<Plane> floor_ = nullptr;
+	//shared_ptr<Plane> floor_ = nullptr;
 	shared_ptr<LightSource> light_source_ = nullptr;
 	shared_ptr<Toy> toy_ = nullptr;
 
@@ -91,7 +98,7 @@ public:
 
 
 int main(int agrc, char *argv[]) {
-	EXLight basic_light;
+	EXMoveLight basic_light;
 	basic_light.run();
 	return 0;
 }

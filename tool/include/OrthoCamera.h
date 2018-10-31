@@ -34,16 +34,16 @@ public:
 		}
 		if (control_enable_) {
 			if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				world_position_ += up_ * speed_;
+				World_position(World_position() + up_ * speed_);
 			}
 			else if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				world_position_ -= up_ * speed_;
+				World_position(World_position() - up_ * speed_);
 			}
 			else if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				world_position_ += right_ * speed_;
+				World_position(World_position() + right_ * speed_);
 			}
 			else if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				world_position_ -= right_ * speed_;
+				World_position(World_position() - right_ * speed_);
 			}
 			else if (key == GLFW_KEY_H && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
 			}
@@ -89,6 +89,12 @@ public:
 			}
 		}
 	}
+
+	virtual glm::mat4 get_project_matrix() override;
+
+
+	virtual glm::mat4 get_view_matrix() override;
+
 private:
 	void update_vector();
 };

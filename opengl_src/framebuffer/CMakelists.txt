@@ -1,0 +1,20 @@
+
+include_directories(${CMAKE_SOURCE_DIR}/tool/include)
+
+find_package(glfw3 CONFIG REQUIRED)
+find_package(gl3w CONFIG REQUIRED)
+
+
+file(GLOB src_dir src/*.cpp)
+source_group("Source Files" FILES ${src_dir})
+
+file(GLOB include_dir include/*.h)
+source_group("Include Files" FILES ${include_dir})
+
+include_directories("include")
+
+add_executable("framebuffer" ${src_dir} ${include_dir} ${shader_dir})
+set_target_properties("framebuffer" PROPERTIES FOLDER "GL")
+target_link_libraries("framebuffer" tool)
+target_link_libraries("framebuffer" PRIVATE glfw)
+target_link_libraries("framebuffer" PRIVATE unofficial::gl3w::gl3w)

@@ -97,7 +97,7 @@ class EChessFail : public ExampleTemplate
 		glm::mat4 ortho_matrix = glm::ortho(-(float)(VERTEX_NUM - 1) / 2, (float)(VERTEX_NUM - 1) / 2, -(float)(VERTEX_NUM - 1) / 2, (float)(VERTEX_NUM - 1) / 2);
 		static const GLfloat black[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 		shader_program->use();
-		shader_program->set_uniform_mat4("project", camera_->get_matrix());
+		shader_program->set_uniform_mat4("project", gcamera->get_matrix());
 
 		//shader_program->set_uniform_mat4("project", orcho_camera.get_matrix());
 
