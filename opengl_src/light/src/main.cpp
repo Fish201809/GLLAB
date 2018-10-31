@@ -21,7 +21,7 @@ public:
 		light_source_geo = std::make_shared<Cube>(std::make_unique<Texture2D>(light_data, 2, 2, 4));
 	}
 	void Render() {
-		light_source_geo->set_model_matrix(glm::translate(glm::mat4(1.0f), glm::vec3(-40.0f, 25.0f, -20.0f)));
+		light_source_geo->set_model_matrix(glm::translate(glm::mat4(1.0f), glm::vec3(25.0f, 0.0f, 0.0f)));
 		light_source_geo->Render(ShaderLoader::GetShaderProgram("tbasic"));
 	}
 	glm::vec3 Color() const { return color_; }
@@ -31,7 +31,7 @@ public:
 private:
 	shared_ptr<Cube> light_source_geo = nullptr;
 	glm::vec3 color_ = glm::vec3(1.0f, 1.0f, 1.0f);
-	glm::vec3 position_ = glm::vec3(-40.0f, 25.0f, -20.0f);
+	glm::vec3 position_ = glm::vec3(25.0f, 0.0f, 0.0f);
 };
 
 
@@ -49,7 +49,7 @@ public:
 		toy_geo = std::make_shared<Cube>(glm::vec3(1.0f, 0.5f, 0.31f), std::make_unique<Texture2D>(light_data, 2, 2, 4));
 	}
 	void Render(ShaderProgram &shader_program) {
-		toy_geo->set_model_matrix(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 5.0f, 0.0f)));
+		toy_geo->set_model_matrix(glm::translate(glm::mat4(1.0f), glm::vec3(-15.0f, 0.0f, 0.0f)));
 		toy_geo->Render(shader_program);
 	}
 	glm::vec3 Color() const { return color_; }
@@ -80,20 +80,20 @@ public:
 		glm::vec3 lPosition = light_source_->Position();
 		glm::vec3 lCameraPosition = gcamera->World_position();
 		ShaderLoader::GetShaderProgram("light_view").use();
-		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("ulight_color", lColor.x, lColor.y, lColor.z);
-		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("ulight_position", lPosition.x, lPosition.y, lPosition.z);
-		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("ucamera_position", lCameraPosition.x, lCameraPosition.y, lCameraPosition.z);
+		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("uLightColor", lColor.x, lColor.y, lColor.z);
+		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("uLightPosition", lPosition.x, lPosition.y, lPosition.z);
+		ShaderLoader::GetShaderProgram("light_view").set_uniform_vec3("uCameraPosition", lCameraPosition.x, lCameraPosition.y, lCameraPosition.z);
 		toy_->Render(ShaderLoader::GetShaderProgram("light_view"));
 	}
 
 	virtual void set_state() override {
 		glEnable(GL_DEPTH_TEST);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 public:
 	//shared_ptr<Plane> floor_ = nullptr;
 	shared_ptr<LightSource> light_source_ = nullptr;
 	shared_ptr<Toy> toy_ = nullptr;
-
 };
 
 
