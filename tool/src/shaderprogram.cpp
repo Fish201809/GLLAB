@@ -132,6 +132,12 @@ bool ShaderProgram::set_uniform_vec3(const std::string &name, float x, float y, 
 	return true;
 }
 
+bool ShaderProgram::set_uniform_vec3(const std::string &name, glm::vec3 value) {
+	GLint location_id = glGetUniformLocation(handle, name.c_str());
+	glUniform3f(location_id, value.x, value.y, value.z);
+	return true;
+}
+
 bool ShaderProgram::set_uniform_vec4(const std::string &name, float x, float y, float z, float w) {
 	GLint location_id = glGetUniformLocation(handle, name.c_str());
 	glUniform4f(location_id, x, y, z, w);

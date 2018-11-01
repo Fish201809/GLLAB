@@ -90,7 +90,7 @@ class EChessFail : public ExampleTemplate
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void display() {
+	void render() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		/*glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 		glPointSize(15.0f);*/

@@ -52,6 +52,10 @@ void ExampleTemplate::setting(std::string ex_name)
 
 
 
+void ExampleTemplate::update(float time) {
+
+}
+
 void ExampleTemplate::run() {
 	try {
 		LoadResource();
@@ -61,7 +65,8 @@ void ExampleTemplate::run() {
 			deltaTime = elapse_time - lastFrame;
 			lastFrame = elapse_time;
 			process_key(window);
-			display();
+			update(deltaTime);
+			render();
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}
@@ -100,6 +105,12 @@ void ExampleTemplate::LoadResource() {
 									FileSystem::getPath("shaders/light_view.frag")), "light_view");
 	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/cbasic.vert"),
 									FileSystem::getPath("shaders/ucolor.frag")), "ucolor");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/light_gourand.vert"),
+									FileSystem::getPath("shaders/light_gourand.frag")), "light_gourand");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/light_materix.vert"),
+									FileSystem::getPath("shaders/light_materix.frag")), "light_materix");
+	ShaderLoader::LoadShaderProgram(std::make_unique<ShaderProgram>(FileSystem::getPath("shaders/light_material2.vert"),
+									FileSystem::getPath("shaders/light_material2.frag")), "light_material2");
 }
 
 void ExampleTemplate::process_key(GLFWwindow *window) {

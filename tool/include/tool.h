@@ -41,7 +41,8 @@ public:
 
 public:
 	virtual void set_state() = 0;
-	virtual void display() = 0;
+	virtual void update(float time);
+	virtual void render() = 0;
 	virtual void run();
 	virtual void LoadResource();
 	void process_key(GLFWwindow *window);
