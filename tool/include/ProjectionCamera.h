@@ -14,21 +14,7 @@ class ProjectionCamera:public Camera
 {
 public:
 
-	ProjectionCamera() {
-	}
-
-	const glm::vec3 WORLD_UP = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	float yaw_ = 0.0f;		//偏航角
-	float pitch_ = 0.0f;	//俯仰角
-
-
-	float fov = 30.0f;
-	float width = 800.0f;
-	float height = 600.0f;
-
-	float distance_ = 5000.0f;
-
+	ProjectionCamera() {}
 
 	virtual glm::mat4 get_matrix() override;
 
@@ -97,9 +83,18 @@ public:
 
 	virtual glm::mat4 get_project_matrix() override;
 
-
 	virtual glm::mat4 get_view_matrix() override;
+private:
+	const glm::vec3 WORLD_UP = glm::vec3(0.0f, 1.0f, 0.0f);
 
+	float yaw_ = 0.0f;		//偏航角
+	float pitch_ = 0.0f;	//俯仰角
+
+	float fov = 30.0f;
+	float width = 800.0f;
+	float height = 600.0f;
+
+	float distance_ = 5000.0f;
 private:
 	void update_vector();
 };

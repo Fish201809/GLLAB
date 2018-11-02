@@ -4,8 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 glm::mat4 ProjectionCamera::get_matrix() {
-	glm::mat4 projection = glm::perspective(glm::radians(fov), width / height, 0.1f, 1000.0f) * glm::lookAt(World_position(), World_position() - front_ * distance_, up_);
-	return projection;
+	return get_project_matrix() * get_view_matrix();
 }
 
 glm::mat4 ProjectionCamera::get_project_matrix() {
