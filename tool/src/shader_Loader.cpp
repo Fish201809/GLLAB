@@ -105,6 +105,9 @@
 //
 
 #include "shader_Loader.h"
+#include "texture2d.h"
+#include "shaderprogram.h"
+
 
 
 std::map<std::string, std::unique_ptr<ShaderProgram>>  ShaderLoader::Shaders;

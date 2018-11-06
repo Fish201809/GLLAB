@@ -1,0 +1,57 @@
+﻿
+#include <gl/gl3w.h>
+#include <iostream>
+
+#include <SDL.h>
+
+#include <SDL2pp/SDL.hh>
+#include <SDL2pp/Window.hh>
+#include <SDL2pp/Renderer.hh>
+
+
+using namespace SDL2pp;
+
+int main(int, char*[]) try {
+	
+	SDL sdl(SDL_INIT_VIDEO);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+	Window window("libSDL2pp demo: sprites", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+	
+	SDL_GL_CreateContext(window.Get());
+	gl3wInit();
+
+	while (1) {
+		// Process input
+		SDL_Event event;
+		while (SDL_PollEvent(&event)) {
+			if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_ESCAPE || event.key.keysym.sym == SDLK_q)))
+				return 0;
+			else if (event.type == SDL_KEYDOWN) {
+				switch (event.key.keysym.sym) {
+					case SDLK_ESCAPE:
+						return 0;
+					case SDLK_UP:
+						break;
+					case SDLK_DOWN:
+						break;
+					case SDLK_LEFT:
+						break;
+					case SDLK_RIGHT:
+						break;
+				}
+			}
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			SDL_GL_SwapWindow(window.Get());
+			SDL_Delay(1);
+		}
+	}
+	return 0;
+}
+catch (std::exception& e) {
+	std::cerr << "Error: " << e.what() << std::endl;
+	return 1;
+}

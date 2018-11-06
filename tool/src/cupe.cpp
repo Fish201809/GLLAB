@@ -1,10 +1,10 @@
 ﻿#include "cube.h"
-#include "tool.h"
 #include "filesystem.h"
+#include "camera.h"
+#include "shaderprogram.h"
+#include "texture2d.h"
 
 #include <stb_image.h>
-
-extern std::shared_ptr<Camera> gcamera;
 
 static const GLfloat cube_vbo_vertex[]{
 	 -5.0f, -5.0f, -5.0f,  0.0f,  0.0f, -1.0f,
@@ -141,11 +141,11 @@ void Cube::set_model_matrix(glm::mat4 model_matrix) {
 }
 
 
-void Cube::Render(ShaderProgram &shader_program) {
+void Cube::Render(ShaderProgram &shader_program, std::shared_ptr<Camera> camera) {
 
 	shader_program.use();
-	shader_program.set_uniform_mat4("uViewMatrix", gcamera->get_view_matrix());
-	shader_program.set_uniform_mat4("uProjectMatrix", gcamera->get_project_matrix());
+	shader_program.set_uniform_mat4("uViewMatrix", camera->get_view_matrix());
+	shader_program.set_uniform_mat4("uProjectMatrix", camera->get_project_matrix());
 	shader_program.set_uniform_mat4("uModelMatrix", model_matrix_);
 
 	glBindVertexArray(vao_);

@@ -1,13 +1,12 @@
 ﻿#pragma once
 
-#include <map>
-#include <memory>
-#include <string>
-
-#include "texture2d.h"
-#include "shaderprogram.h"
 
 
+
+#include "common.h"
+
+class Texture2D;
+class ShaderProgram;
 
 class ShaderLoader
 {

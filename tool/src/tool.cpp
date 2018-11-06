@@ -116,16 +116,16 @@ void ExampleTemplate::LoadResource() {
 void ExampleTemplate::process_key(GLFWwindow *window) {
 	
 	if (glfwGetKey(window, GLFW_KEY_W)) {
-		gcamera->World_position(gcamera->World_position() - gcamera->front_ * gcamera->speed_front_ * deltaTime);
+		gcamera->World_position(gcamera->World_position() - gcamera->Front() * gcamera->speed_front_ * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_S)) {
-		gcamera->World_position(gcamera->World_position() + gcamera->front_ * gcamera->speed_front_ * deltaTime);
+		gcamera->World_position(gcamera->World_position() + gcamera->Front() * gcamera->speed_front_ * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_A)) {
-		gcamera->World_position(gcamera->World_position() + gcamera->right_ * gcamera->speed_ * deltaTime);
+		gcamera->World_position(gcamera->World_position() + gcamera->Right() * gcamera->speed_ * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D)) {
-		gcamera->World_position(gcamera->World_position() - gcamera->right_ * gcamera->speed_ * deltaTime);
+		gcamera->World_position(gcamera->World_position() - gcamera->Right() * gcamera->speed_ * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(window, GL_TRUE);

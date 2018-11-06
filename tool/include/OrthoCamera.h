@@ -1,8 +1,5 @@
 ﻿#pragma once
 
-#include <glm/glm.hpp>
-#include <GLFW/glfw3.h>
-#include <iostream>
 #include "camera.h"
 
 #pragma warning( disable : 4244 )
@@ -34,16 +31,16 @@ public:
 		}
 		if (control_enable_) {
 			if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				World_position(World_position() + up_ * speed_);
+				World_position(World_position() + Up() * speed_);
 			}
 			else if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				World_position(World_position() - up_ * speed_);
+				World_position(World_position() - Up() * speed_);
 			}
 			else if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				World_position(World_position() + right_ * speed_);
+				World_position(World_position() + Right() * speed_);
 			}
 			else if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-				World_position(World_position() - right_ * speed_);
+				World_position(World_position() - Right() * speed_);
 			}
 			else if (key == GLFW_KEY_H && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
 			}

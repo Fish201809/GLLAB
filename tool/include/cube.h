@@ -1,13 +1,11 @@
 ﻿#pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
-#include "shaderprogram.h"
-#include "texture2d.h"
+#include "common.h"
 
-
+class ShaderProgram;
+class Texture2D;
+class Camera;
 
 class Cube
 {
@@ -15,7 +13,7 @@ public:
 	Cube(glm::vec3 color, std::unique_ptr<Texture2D> texture);
 	explicit Cube(std::unique_ptr<Texture2D> texture);
 	void set_model_matrix(glm::mat4 model_matrix);
-	virtual void Render(ShaderProgram &shader_program);
+	virtual void Render(ShaderProgram &shader_program, std::shared_ptr<Camera> camera);
 private:
 	virtual void Init();
 

@@ -1,8 +1,7 @@
 ﻿#pragma once
 
-#include <glm/glm.hpp>
-#include <GLFW/glfw3.h>
-#include <iostream>
+
+
 
 #include "camera.h"
 
@@ -13,7 +12,7 @@
 class ProjectionCamera:public Camera
 {
 public:
-
+	void update_vector();
 	ProjectionCamera() {}
 
 	virtual glm::mat4 get_matrix() override;
@@ -23,16 +22,16 @@ public:
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
 		if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-			World_position(World_position() - front_ * speed_);
+			World_position(World_position() - Front() * speed_);
 		}
 		else if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-			World_position(World_position() + front_ * speed_);
+			World_position(World_position() + Front() * speed_);
 		}
 		else if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-			World_position(World_position() + right_ * speed_);
+			World_position(World_position() + Right() * speed_);
 		}
 		else if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
-			World_position(World_position() - right_ * speed_);
+			World_position(World_position() - Right() * speed_);
 		}
 		else if (key == GLFW_KEY_H && (action == GLFW_REPEAT || action == GLFW_PRESS)) {
 
@@ -41,12 +40,12 @@ public:
 
 	virtual void scrollfunCallBack(GLFWwindow* window, double x, double y) override{
 		//std::cout << "x: " << x << " y: " << y << std::endl;
-		if (fov >= 1.0f && fov <= 45.0f)
-			fov -= y;
-		if (fov <= 1.0f)
-			fov = 1.0f;
-		if (fov >= 45.0f)
-			fov = 45.0f;
+		if (Fov() >= 1.0f && Fov() <= 45.0f)
+			Fov(Fov() - y);
+		if (Fov() <= 1.0f)
+			Fov(1.0f);
+		if (Fov() >= 45.0f)
+			Fov(45.0f);
 
 	}
 
@@ -69,21 +68,27 @@ public:
 				xoffset *= sensitivity;
 				yoffset *= sensitivity;
 
-				yaw_ -= xoffset;
-				pitch_ -= yoffset;
+				Yaw(Yaw() - xoffset);
+				Pitch(Pitch() - yoffset);
 
-				if (pitch_ > 89.0f)
-					pitch_ = 89.0f;
-				if (pitch_ < -89.0f)
-					pitch_ = -89.0f;
+				if (Pitch() > 89.0f)
+					Pitch(89.0f);
+				if (Pitch() < -89.0f)
+					Pitch(-89.0f);
 
 				update_vector();
 		}
 	}
-
+	
 	virtual glm::mat4 get_project_matrix() override;
 
 	virtual glm::mat4 get_view_matrix() override;
+	float Fov() const { return fov; }
+	void Fov(float val) { fov = val; }
+	float Pitch() const { return pitch_; }
+	void Pitch(float val) { pitch_ = val; }
+	float Yaw() const { return yaw_; }
+	void Yaw(float val) { yaw_ = val; }
 private:
 	const glm::vec3 WORLD_UP = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -95,7 +100,6 @@ private:
 	float height = 600.0f;
 
 	float distance_ = 5000.0f;
-private:
-	void update_vector();
+
 };
 

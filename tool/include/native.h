@@ -1,10 +1,6 @@
 ﻿#pragma once
 
-#include <fstream>
-#include <iostream>
-#include <memory>
-#include <string>
-
+#include "common.h"
 
 #if defined(_MSC_VER)
 #ifndef HAVE_SSIZE_T

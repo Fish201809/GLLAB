@@ -1,9 +1,8 @@
 ﻿#pragma once
-#include <gl/gl3w.h>
-#include "native.h"
-#include <string>
 
-#include <glm/glm.hpp>
+#include "native.h"
+
+
 
 class ShaderProgram
 {

@@ -27,8 +27,8 @@ extern std::shared_ptr<Camera> gcamera;
 using namespace std;
 
 
-constexpr int WIN_WIDTH = 800;
-constexpr int WIN_HEIGHT = 600;
+static constexpr int WIN_WIDTH = 800;
+static constexpr int WIN_HEIGHT = 600;
 
 class ExampleTemplate
 {

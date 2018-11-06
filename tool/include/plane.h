@@ -1,18 +1,16 @@
 ﻿#pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
-#include "shaderprogram.h"
-#include "texture2d.h"
 
+class ShaderProgram;
+class Texture2D;
+class Camera;
 
 class Plane
 {
 public:
 	explicit Plane(std::unique_ptr<Texture2D> texture);
-	virtual void Render(ShaderProgram &shader_program);
+	virtual void Render(ShaderProgram &shader_program, std::shared_ptr<Camera> camera);
 	void set_model_matrix(glm::mat4 model_matrix);
 private:
 	virtual void Init();

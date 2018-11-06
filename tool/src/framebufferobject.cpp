@@ -1,5 +1,5 @@
 ﻿#include "framebufferobject.h"
-#include "tool.h"
+#include "texture2d.h"
 
 static float frame_vbo[] = {
 		-1.0f, -1.0f, 0.0f, 0.0f,

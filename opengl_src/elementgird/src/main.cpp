@@ -1,6 +1,7 @@
 ﻿#include "tool.h"
 
-CAMERA_IMPORT
+
+//std::shared_ptr<ProjectionCamera> gcamera = std::make_shared<ProjectionCamera>();
 
 enum VBOTYPE
 {

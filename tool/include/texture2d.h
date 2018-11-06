@@ -1,8 +1,6 @@
 ﻿#pragma once
 
-#include <gl/gl3w.h>
-#include <string>
-#include <vector>
+#include "common.h"
 
 class Texture2D
 {
@@ -30,7 +28,5 @@ private:
 	GLuint handle_;
 	int width, height;
 	int nrChannels;
-private:
-	void generate(const std::string &path);
 };
 

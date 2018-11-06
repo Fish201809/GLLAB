@@ -1,9 +1,7 @@
-﻿#include "Plane.h"
-#include "tool.h"
-#include "filesystem.h"
-
-
-extern std::shared_ptr<Camera> gcamera;
+﻿#include "shaderprogram.h"
+#include "texture2d.h"
+#include "plane.h"
+#include "camera.h"
 
 
 Plane::Plane(std::unique_ptr<Texture2D> texture) {
@@ -11,11 +9,13 @@ Plane::Plane(std::unique_ptr<Texture2D> texture) {
 	Init();
 }
 
-void Plane::Render(ShaderProgram &shader_program)
-{
+
+void Plane::Render(ShaderProgram &shader_program, std::shared_ptr<Camera> camera) {
 	shader_program.use();
-	shader_program.set_uniform_mat4("vp_matrix", gcamera->get_matrix());
-	shader_program.set_uniform_mat4("model_matrix", model_matrix_);
+	shader_program.set_uniform_mat4("uViewMatrix", camera->get_view_matrix());
+	shader_program.set_uniform_mat4("uProjectMatrix", camera->get_project_matrix());
+	shader_program.set_uniform_mat4("uModelMatrix", model_matrix_);
+
 	glBindVertexArray(vao_);
 	glActiveTexture(GL_TEXTURE0);
 	texture_->bind();
