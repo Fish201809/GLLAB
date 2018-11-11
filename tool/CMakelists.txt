@@ -9,7 +9,8 @@ source_group("Source Files" FILES ${src_dir})
 file(GLOB include_dir include/*.h)
 source_group("Include Files" FILES ${include_dir})
 
-file(GLOB shader_dir ${CMAKE_SOURCE_DIR}/resource/shaders/*.vert ${CMAKE_SOURCE_DIR}/resource/shaders/*.frag)
+file(GLOB shader_dir ${CMAKE_SOURCE_DIR}/resource/shaders/*.vert ${CMAKE_SOURCE_DIR}/resource/shaders/*.frag 
+                     ${CMAKE_SOURCE_DIR}/resource/shaders/*.tesc ${CMAKE_SOURCE_DIR}/resource/shaders/*.tese)
 source_group("Shader Files" FILES ${shader_dir})
 
 include_directories("include")

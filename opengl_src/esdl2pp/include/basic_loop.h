@@ -14,6 +14,7 @@ public:
 	virtual ~BasicLoop();
 public:
 	virtual void SetState();
+	virtual void Init();
 	virtual void Run();
 	virtual void RenderGL();
 	virtual void RenderGui();
@@ -22,7 +23,7 @@ public:
 	virtual void KeyEvent();
 
 private:
-	bool show_demo_window_ = false;
+	bool show_demo_window_ = true;
 	bool show_another_window_ = false;
 	ImVec4 clear_color_ = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	bool done_ = false;

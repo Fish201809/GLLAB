@@ -37,22 +37,60 @@ ShaderProgram::ShaderProgram() {
 
 ShaderProgram::ShaderProgram(const std::string &vert_path, const std::string &frag_path, bool link_flag) {
 	handle = glCreateProgram();
-	attach_vertex_shader(vert_path);
-	attach_fragment_shader(frag_path);
+	attach_vertex_shader_file(vert_path);
+	attach_fragment_shader_file(frag_path);
 	if (link_flag) {
 		this->link();
 	}
 }
 
-void ShaderProgram::attach_vertex_shader(const std::string &path) {
+void ShaderProgram::attach_vertex_shader_file(const std::string &path) {
 	Native native(path);
 
-	// allocate shader in opengl
-	vertex_shader_handle = glCreateShader(GL_VERTEX_SHADER);
+
+
+	// load shader source
+	std::string core = native.read().c_str();
+
+	attach_vertex_shader(core);
+}
+
+void ShaderProgram::attach_fragment_shader_file(const std::string &path) {
+	Native native(path);
+
+
+	// load shader source
+	std::string core = native.read().c_str();
+	attach_fragment_shader(core);
+}
+
+void ShaderProgram::attach_tess_control_shader_file(const std::string &path) {
+	Native native(path);
+
+
+
+	// load shader source
+	std::string core = native.read().c_str();
+	attach_tess_control_shader(core);
+}
+
+void ShaderProgram::attach_tess_evaluation_shader_file(const std::string &path) {
+	Native native(path);
+
+	
 
 	// load shader source
 	std::string core = native.read().c_str();
 	const char* data = core.c_str();
+	attach_tess_evaluation_shader(core);
+}
+
+void ShaderProgram::attach_vertex_shader(const std::string &path) {
+
+	// allocate shader in opengl
+	vertex_shader_handle = glCreateShader(GL_VERTEX_SHADER);
+
+	const char* data = path.c_str();
 	glShaderSource(vertex_shader_handle, 1, &data, nullptr);
 
 	// compile shader source
@@ -77,14 +115,11 @@ void ShaderProgram::attach_vertex_shader(const std::string &path) {
 }
 
 void ShaderProgram::attach_fragment_shader(const std::string &path) {
-	Native native(path);
+
 
 	// allocate shader in opengl
 	fragment_shader_handle = glCreateShader(GL_FRAGMENT_SHADER);
-
-	// load shader source
-	std::string core = native.read().c_str();
-	const char* data = core.c_str();
+	const char* data = path.c_str();
 	glShaderSource(fragment_shader_handle, 1, &data, nullptr);
 
 	// compile shader source
@@ -105,6 +140,62 @@ void ShaderProgram::attach_fragment_shader(const std::string &path) {
 		throw Error(info);
 	}
 	glAttachShader(handle, fragment_shader_handle);
+}
+
+void ShaderProgram::attach_tess_control_shader(const std::string &path) {
+
+	// allocate shader in opengl
+	tess_control_handle_ = glCreateShader(GL_TESS_CONTROL_SHADER);
+
+	// load shader source
+	const char* data = path.c_str();
+	glShaderSource(tess_control_handle_, 1, &data, nullptr);
+
+	// compile shader source
+	glCompileShader(tess_control_handle_);
+
+	// check compiliation result
+	GLint status;
+	glGetShaderiv(tess_control_handle_, GL_COMPILE_STATUS, &status);
+
+	if (status != GL_TRUE) {
+		GLint loglen;
+		glGetShaderiv(tess_control_handle_, GL_INFO_LOG_LENGTH, &loglen);
+
+		std::vector<char> infolog(loglen);
+		glGetShaderInfoLog(tess_control_handle_, loglen, nullptr, infolog.data());
+
+		std::string info = std::string() + "Failed to compiler tesc shader:\n" + infolog.data();
+		throw Error(info);
+	}
+	glAttachShader(handle, tess_control_handle_);
+}
+
+void ShaderProgram::attach_tess_evaluation_shader(const std::string &path) {
+	// allocate shader in opengl
+	tess_evaluation_handle_ = glCreateShader(GL_TESS_EVALUATION_SHADER);
+
+	const char* data = path.c_str();
+	glShaderSource(tess_evaluation_handle_, 1, &data, nullptr);
+
+	// compile shader source
+	glCompileShader(tess_evaluation_handle_);
+
+	// check compiliation result
+	GLint status;
+	glGetShaderiv(tess_evaluation_handle_, GL_COMPILE_STATUS, &status);
+
+	if (status != GL_TRUE) {
+		GLint loglen;
+		glGetShaderiv(tess_evaluation_handle_, GL_INFO_LOG_LENGTH, &loglen);
+
+		std::vector<char> infolog(loglen);
+		glGetShaderInfoLog(tess_evaluation_handle_, loglen, nullptr, infolog.data());
+
+		std::string info = std::string() + "Failed to compiler tese shader:\n" + infolog.data();
+		throw Error(info);
+	}
+	glAttachShader(handle, tess_evaluation_handle_);
 }
 
 bool ShaderProgram::set_uniform_mat4(const std::string &name, const glm::mat4 &mat) {

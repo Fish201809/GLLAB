@@ -10,6 +10,7 @@ source_group("Source Files" FILES ${src_dir})
 file(GLOB include_dir include/*.h)
 source_group("Include Files" FILES ${include_dir})
 
+
 include_directories("include")
 
 add_executable("esdl2pp" ${src_dir} ${include_dir} ${shader_dir})

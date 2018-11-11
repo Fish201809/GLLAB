@@ -22,6 +22,4 @@ private:
   static std::string getPathRelativeRoot(const std::string& path);
 
   static std::string getPathRelativeBinary(const std::string& path);
-
-
 };
