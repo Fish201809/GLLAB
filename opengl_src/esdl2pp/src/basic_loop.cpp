@@ -5,7 +5,7 @@
 
 #include "ProjectionCamera.h"
 
-static const char* glsl_version = "#version 130";
+static const char* glsl_version = "#version 450 core";
 
 BasicLoop::BasicLoop() {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
@@ -40,8 +40,8 @@ BasicLoop::BasicLoop() {
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
 	ImGui::StyleColorsDark();
-	key_state_ = SDL_GetKeyboardState(nullptr);
-	camera = std::make_shared<ProjectionCamera>();
+	
+	
 
 }
 
@@ -68,11 +68,6 @@ void BasicLoop::Run() {
 	SetState();
 	Init();
 	while (!done_) {
-		// Poll and handle events (inputs, window resize, etc.)
-		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			ImGui_ImplSDL2_ProcessEvent(&event);
@@ -107,41 +102,20 @@ void BasicLoop::RenderGL() {
 }
 
 void BasicLoop::RenderGui() {
-	//// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-	/*if (show_demo_window_)
-		ImGui::ShowDemoWindow(&show_demo_window_);
-*/
-	//// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-	//{
-	//	static float f = 0.0f;
-	//	static int counter = 0;
 
-	//	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+	ImGui::Begin("OpenGL Status");
 
-	//	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-	//	ImGui::Checkbox("Demo Window", &show_demo_window_);      // Edit bools storing our window open/close state
-	//	ImGui::Checkbox("Another Window", &show_another_window_);
+	static int e = 1;
+	if (ImGui::RadioButton("GL_LINE", &e, 0)) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("GL_FILL", &e, 1)) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	ImGui::SameLine();
 
-	//	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
-	//	ImGui::ColorEdit3("clear color", (float*)&clear_color_); // Edit 3 floats representing a color
-
-	//	if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-	//		counter++;
-	//	ImGui::SameLine();
-	//	ImGui::Text("counter = %d", counter);
-
-	//	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	//	ImGui::End();
-	//}
-
-	//// 3. Show another simple window.
-	//if (show_another_window_) {
-	//	ImGui::Begin("Another Window", &show_another_window_);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-	//	ImGui::Text("Hello from another window!");
-	//	if (ImGui::Button("Close Me"))
-	//		show_another_window_ = false;
-	//	ImGui::End();
-	//}
+	ImGui::End();
 }
 
 void BasicLoop::LoadResource() {
@@ -149,55 +123,9 @@ void BasicLoop::LoadResource() {
 }
 
 void BasicLoop::ProsessEvent(SDL_Event event) {
-	if (event.type == SDL_MOUSEWHEEL) {
-
-		float fov = camera->Fov();
-		fov = fov + event.wheel.y;
-		if (fov <= 1.0f)
-			fov = 1.0f;
-		if (fov >= 89.0f)
-			fov = 89.0f;
-		camera->Fov(fov);
-	}
-
-	if (event.type == SDL_MOUSEMOTION && event.motion.state == SDL_BUTTON_LEFT) {
-		static float xoffset = 0.0f;
-		static float yoffset = 0.0f;
-		static float speed = 3.0f;
-		xoffset -= event.motion.xrel * speed;
-		yoffset += event.motion.yrel * speed;
-		float pitch = glm::radians(yoffset);
-		float yaw = glm::radians(xoffset);
-		if (pitch > 89.0f) {
-			pitch = 89.0f;
-		}
-		else if (pitch < -89.0f) {
-			pitch = -89.0f;
-		}
-		camera->Pitch(pitch);
-		camera->Yaw(yaw);
-		camera->update_vector();
-	}
+	
 }
 
 void BasicLoop::KeyEvent() {
-	glm::vec3 position = camera->World_position();
-	glm::vec3 front = camera->Front();
-	glm::vec3 right = camera->Right();
-	if (key_state_[SDL_SCANCODE_W] == SDL_TRUE) {
-		position -= 3.5f * front;
-		camera->World_position(position);
-	}
-	if (key_state_[SDL_SCANCODE_S] == SDL_TRUE) {
-		position += 3.5f * front;
-		camera->World_position(position);
-	}
-	if (key_state_[SDL_SCANCODE_D] == SDL_TRUE) {
-		position -= 3.5f * right;
-		camera->World_position(position);
-	}
-	if (key_state_[SDL_SCANCODE_A] == SDL_TRUE) {
-		position += 3.5f * right;
-		camera->World_position(position);
-	}
+	
 }

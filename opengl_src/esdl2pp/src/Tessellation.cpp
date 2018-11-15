@@ -32,14 +32,14 @@ void Tessellation::SetUniform() {
 	current_shader_program->set_uniform_1f("inter_1", inter_1);
 }
 
-void Tessellation::Render() {
-	SetUniform();
 
+void Tessellation::RenderGL(std::shared_ptr<ProjectionCamera> camera) {
+	SetUniform();
 	glBindVertexArray(vao_);
 	glDrawArrays(GL_PATCHES, 0, 8);
 }
 
-void Tessellation::GenerateGui() {
+void Tessellation::RenderGUI() {
 	{
 		ImGui::Begin("Tessellation example");
 		{

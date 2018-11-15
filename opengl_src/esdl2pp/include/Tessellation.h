@@ -3,19 +3,20 @@
 #include <gl/gl3w.h>
 #include <memory>
 #include "common.h"
+#include "exobject.h"
 
 class ShaderProgram;
 
 //细分例子构建器
-class Tessellation
+class Tessellation: public EXObject
 {
 public:
 	Tessellation();
 	virtual ~Tessellation();
 	void Init();
 	void SetUniform();
-	void Render();
-	void GenerateGui();
+	void RenderGL(std::shared_ptr<ProjectionCamera> camera);
+	void RenderGUI();
 	void BindVAO();
 	void SwitchVBO(GLuint num);
 	std::shared_ptr<ShaderProgram> GenerateShader();

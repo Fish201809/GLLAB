@@ -14,7 +14,7 @@ void OrthoCamera::update_vector() {
 
 }
 
-glm::mat4 OrthoCamera::get_matrix()
+glm::mat4 OrthoCamera::get_vpmatrix()
 {
 	//glm::vec3 target = world_position_ + front_ * distance_;
 	//std::cout << "position : [ x: " << world_position_.x << ", y: " << world_position_.y << ", z: " << world_position_.z << std::endl;

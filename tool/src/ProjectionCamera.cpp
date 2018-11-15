@@ -1,7 +1,7 @@
 ﻿#include "ProjectionCamera.h"
 
 
-glm::mat4 ProjectionCamera::get_matrix() {
+glm::mat4 ProjectionCamera::get_vpmatrix() {
 	return get_project_matrix() * get_view_matrix();
 }
 
