@@ -27,7 +27,7 @@ static void check_program_status(GLuint program, GLenum what_to_check) {
 		}();
 		std::string info = "";
 		info = info + "OpenGL shader program " + what_str + " failed:\n" + infolog.data();
-		throw Error(info);
+		std::cout << info << std::endl;
 	}
 }
 
@@ -109,7 +109,7 @@ void ShaderProgram::attach_vertex_shader(const std::string &path) {
 
 		std::string info = "";
 		info = info + "Failed to compiler vertex shader:\n" + infolog.data();
-		throw Error(info);
+		std::cout << info << std::endl;
 	}
 	glAttachShader(handle, vertex_shader_handle);
 }
@@ -137,7 +137,7 @@ void ShaderProgram::attach_fragment_shader(const std::string &path) {
 		glGetShaderInfoLog(fragment_shader_handle, loglen, nullptr, infolog.data());
 
 		std::string info = std::string() + "Failed to compiler fragment shader:\n" + infolog.data();
-		throw Error(info);
+		std::cout << info << std::endl;
 	}
 	glAttachShader(handle, fragment_shader_handle);
 }
@@ -166,7 +166,7 @@ void ShaderProgram::attach_tess_control_shader(const std::string &path) {
 		glGetShaderInfoLog(tess_control_handle_, loglen, nullptr, infolog.data());
 
 		std::string info = std::string() + "Failed to compiler tesc shader:\n" + infolog.data();
-		throw Error(info);
+		std::cout << info << std::endl;
 	}
 	glAttachShader(handle, tess_control_handle_);
 }
@@ -193,7 +193,7 @@ void ShaderProgram::attach_tess_evaluation_shader(const std::string &path) {
 		glGetShaderInfoLog(tess_evaluation_handle_, loglen, nullptr, infolog.data());
 
 		std::string info = std::string() + "Failed to compiler tese shader:\n" + infolog.data();
-		throw Error(info);
+		std::cout << info << std::endl;
 	}
 	glAttachShader(handle, tess_evaluation_handle_);
 }

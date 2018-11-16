@@ -8,11 +8,11 @@
 class ShaderProgram;
 
 //细分例子构建器
-class Tessellation: public EXObject
+class EXTessellation: public EXObject
 {
 public:
-	Tessellation();
-	virtual ~Tessellation();
+	EXTessellation();
+	virtual ~EXTessellation();
 	void Init();
 	void SetUniform();
 	void RenderGL(std::shared_ptr<ProjectionCamera> camera);

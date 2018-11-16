@@ -4,8 +4,8 @@
 #include "basic_loop.h"
 #include "exobject.h"
 
-class Tessellation;
-class Floor;
+class EXTessellation;
+class RFloor;
 class ShaderProgram;
 class ProjectionCamera;
 
@@ -22,7 +22,9 @@ public:
 
 	virtual void KeyEvent() override;
 private:
-	
+	bool select_statue = true;
+	bool wander_statue = true;
+
 	std::shared_ptr<ProjectionCamera> camera = nullptr;
 	const Uint8 *key_state_ = nullptr;
 

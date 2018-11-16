@@ -8,7 +8,7 @@ class Texture2D;
 class ShaderProgram;
 class ProjectionCamera;
 
-class Floor
+class RFloor
 {
 public:
 	void Init();

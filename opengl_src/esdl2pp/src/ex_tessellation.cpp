@@ -1,4 +1,4 @@
-﻿#include "Tessellation.h"
+﻿#include "ex_tessellation.h"
 #include "shaderprogram.h"
 #include "filesystem.h"
 #include "imgui.h"
@@ -6,21 +6,21 @@
 #include "imgui_impl_opengl3.h"
 
 
-Tessellation::Tessellation() {
+EXTessellation::EXTessellation() {
 
 }
 
-Tessellation::~Tessellation() {
+EXTessellation::~EXTessellation() {
 
 }
 
-void Tessellation::Init() {
+void EXTessellation::Init() {
 	BindVAO();
 	current_shader_program = GenerateShader();
 }
 
 
-void Tessellation::SetUniform() {
+void EXTessellation::SetUniform() {
 	current_shader_program->use();
 
 	current_shader_program->set_uniform_1f("outer_0", outer_0);
@@ -33,13 +33,13 @@ void Tessellation::SetUniform() {
 }
 
 
-void Tessellation::RenderGL(std::shared_ptr<ProjectionCamera> camera) {
+void EXTessellation::RenderGL(std::shared_ptr<ProjectionCamera> camera) {
 	SetUniform();
 	glBindVertexArray(vao_);
 	glDrawArrays(GL_PATCHES, 0, 8);
 }
 
-void Tessellation::RenderGUI() {
+void EXTessellation::RenderGUI() {
 	{
 		ImGui::Begin("Tessellation example");
 		{
@@ -122,7 +122,7 @@ void Tessellation::RenderGUI() {
 	}
 }
 
-void Tessellation::BindVAO() {
+void EXTessellation::BindVAO() {
 	glCreateVertexArrays(1, &vao_);
 	glCreateBuffers(1, &vbo_);
 	glBindVertexArray(vao_);
@@ -133,7 +133,7 @@ void Tessellation::BindVAO() {
 }
 
 
-void Tessellation::SwitchVBO(GLuint num) {
+void EXTessellation::SwitchVBO(GLuint num) {
 	if (num == 3) {
 		Patch_vertices(3);
 		static GLfloat vertices[] = {
@@ -157,7 +157,7 @@ void Tessellation::SwitchVBO(GLuint num) {
 	}
 }
 
-std::shared_ptr<ShaderProgram> Tessellation::GenerateShader() {
+std::shared_ptr<ShaderProgram> EXTessellation::GenerateShader() {
 
 	static std::string version_info = "#version 450 core\n";
 
@@ -245,7 +245,7 @@ std::shared_ptr<ShaderProgram> Tessellation::GenerateShader() {
 	return shader_program;
 }
 
-void Tessellation::Patch_vertices(GLuint val) {
+void EXTessellation::Patch_vertices(GLuint val) {
 	glPatchParameteri(GL_PATCH_VERTICES, val);
 	patch_vertices_ = val;
 }

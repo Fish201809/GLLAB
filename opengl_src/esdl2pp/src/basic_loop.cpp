@@ -56,7 +56,7 @@ BasicLoop::~BasicLoop() {
 }
 
 void BasicLoop::SetState() {
-
+	SDL_ShowCursor(SDL_DISABLE);
 }
 
 
@@ -67,6 +67,7 @@ void BasicLoop::Init() {
 void BasicLoop::Run() {
 	SetState();
 	Init();
+
 	while (!done_) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -89,6 +90,7 @@ void BasicLoop::Run() {
 		glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 		glClearColor(clear_color_.x, clear_color_.y, clear_color_.z, clear_color_.w);
 		glClear(GL_COLOR_BUFFER_BIT);
+
 		
 		RenderGL();
 

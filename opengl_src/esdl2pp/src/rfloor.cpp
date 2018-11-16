@@ -1,10 +1,10 @@
-﻿#include "floor.h"
+﻿#include "rfloor.h"
 #include "shaderprogram.h"
 #include "texture2d.h"
 #include "filesystem.h"
 #include "ProjectionCamera.h"
 
-void Floor::Init() {
+void RFloor::Init() {
 	static GLfloat vertex[] = {
 		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 
@@ -25,11 +25,11 @@ void Floor::Init() {
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	shader_program_ = GenerateShader();
-	texture2d_ = std::make_shared<Texture2D>(FileSystem::getPath("Image/chess.jpg"));
+	texture2d_ = std::make_shared<Texture2D>(FileSystem::getPath("Image/wood.png"));
 }
 
 
-void Floor::Render(std::shared_ptr<ProjectionCamera> camera) {
+void RFloor::Render(std::shared_ptr<ProjectionCamera> camera) {
 	texture2d_->bind();
 	shader_program_->use();
 	glm::mat4 rotate_matrix = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -42,7 +42,7 @@ void Floor::Render(std::shared_ptr<ProjectionCamera> camera) {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-std::shared_ptr<ShaderProgram> Floor::GenerateShader() {
+std::shared_ptr<ShaderProgram> RFloor::GenerateShader() {
 	std::string vertex_shader = {
 		"#version 450 core\n"
 		"layout(location = 0) in vec3 position;\n"

@@ -2,12 +2,12 @@
 
 #include "exobject.h"
 
-class Floor;
+class RFloor;
 
-class PhoneLight: public EXObject
+class EXPhoneLight: public EXObject
 {
 public:
-	PhoneLight();
+	EXPhoneLight();
 	virtual void Init() override;
 
 
@@ -17,5 +17,7 @@ public:
 	virtual void RenderGUI() override;
 
 private:
-	std::shared_ptr<Floor> floor_ = nullptr;
+	std::shared_ptr<RFloor> floor_ = nullptr;
 };
+
+

@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <gl/gl3w.h>
 #include <memory>
 class ProjectionCamera;
 
