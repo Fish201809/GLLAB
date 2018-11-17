@@ -77,8 +77,6 @@ void ShaderProgram::attach_tess_control_shader_file(const std::string &path) {
 void ShaderProgram::attach_tess_evaluation_shader_file(const std::string &path) {
 	Native native(path);
 
-	
-
 	// load shader source
 	std::string core = native.read().c_str();
 	const char* data = core.c_str();

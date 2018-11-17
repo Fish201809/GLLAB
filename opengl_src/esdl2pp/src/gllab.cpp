@@ -72,6 +72,8 @@ void GLLab::RenderGui() {
 		std::string position = "camera position: ";
 		position += std::to_string(camera_position[0]) + " " + std::to_string(camera_position[1]) + " " + std::to_string(camera_position[2]);
 		ImGui::Text(position.c_str());
+		/*bool flag = true;
+		ImGui::ShowDemoWindow(&flag);*/
 	}
 	ImGui::End();
 
