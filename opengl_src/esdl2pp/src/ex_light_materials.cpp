@@ -3,6 +3,7 @@
 #include <vector>
 #include "ProjectionCamera.h"
 
+
 void EXLightMaterials::Init() {
 	float vertices[] = {
 	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -81,7 +82,7 @@ void  EXLightMaterials::RenderGL(std::shared_ptr<ProjectionCamera> camera) {
 	phone_shader_->set_uniform_vec3("materials.ambient", material_.ambient);
 	phone_shader_->set_uniform_vec3("materials.diffuse", material_.diffuse);
 	phone_shader_->set_uniform_vec3("materials.specular", material_.specular);
-	phone_shader_->set_uniform_1i("materials.shininess", material_.shininess);
+	phone_shader_->set_uniform_1f("materials.shininess", material_.shininess);
 
 	//光分量和位置
 	phone_shader_->set_uniform_vec3("light_attr.ambient", light_attr_.ambient);
@@ -109,9 +110,9 @@ void  EXLightMaterials::RenderGUI() {
 		ImGui::DragFloat3("material specular", &material_.specular[0], 0.01f, 0.0f, 1.0f);
 		ImGui::DragFloat("shininess", &material_.shininess, 0.1f);
 
-		ImGui::DragFloat3("light ambient", &light_attr_.ambient[0], 0.01f, 0.0f, 1.0f);
-		ImGui::DragFloat3("light diffuse", &light_attr_.diffuse[0], 0.01f, 0.0f, 1.0f);
-		ImGui::DragFloat3("light specular", &light_attr_.specular[0], 0.01f, 0.0f, 1.0f);
+		ImGui::DragFloat3("light ambient", &light_attr_.ambient[0], 0.1f, 0.0f, 1.0f);
+		ImGui::DragFloat3("light diffuse", &light_attr_.diffuse[0], 0.1f, 0.0f, 1.0f);
+		ImGui::DragFloat3("light specular", &light_attr_.specular[0], 0.1f, 0.0f, 1.0f);
 		ImGui::DragFloat("x", &light_attr_.position[0], 0.01f);
 		ImGui::DragFloat("y", &light_attr_.position[1], 0.01f);
 		ImGui::DragFloat("z", &light_attr_.position[2], 0.01f);

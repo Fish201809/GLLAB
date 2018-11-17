@@ -30,6 +30,6 @@ private:
 
 	glm::vec3 cube_position_ = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	Material material_;
-	LightAttr light_attr_;
+	BasicMaterials material_;
+	BaiscLightAttr light_attr_;
 };

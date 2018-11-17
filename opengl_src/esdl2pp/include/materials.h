@@ -1,15 +1,24 @@
 ﻿#pragma once
 #include "common.h"
+#include "texture2d.h"
 
-struct Material
+struct BasicMaterials
 {
 	glm::vec3 ambient = glm::vec3(1.0f, 0.5f, 0.31f);
 	glm::vec3 diffuse = glm::vec3(1.0f, 0.5f, 0.31f);
 	glm::vec3 specular = glm::vec3(0.5f, 0.5f, 0.5f);
-	float shininess = 32;
+	float shininess = 32.0f;
 };
 
-struct LightAttr
+struct TexMaterial
+{
+	std::shared_ptr<Texture2D> diffuse = nullptr;
+	std::shared_ptr<Texture2D> specular = nullptr;
+	float     shininess = 32.0f;
+};
+
+
+struct BaiscLightAttr
 {
 	glm::vec3 position = glm::vec3(1.15f, 1.150f, -1.4f);
 	glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
@@ -17,6 +26,38 @@ struct LightAttr
 	glm::vec3 specular = glm::vec3(1.0f, 1.0f, 1.0f);
 };
 
+struct DirLight
+{
+	glm::vec3 direction_ = glm::vec3(-0.2f, -1.0f, -0.3f);
+	glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+	glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::vec3 specular = glm::vec3(1.0f, 1.0f, 1.0f);
+};
+
+struct PointLight
+{
+	glm::vec3 position = glm::vec3(3.15f, -1.150f, -1.4f);
+	glm::vec3 ambient = glm::vec3(0.05f, 0.05f, 0.05f);
+	glm::vec3 diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
+	glm::vec3 specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	float constant = 1.0f;
+	float linear = 0.09f;
+	float quadratic = 0.032f;
+};
+
+//投光物
+struct SpotLight{
+	glm::vec3 position;
+	glm::vec3 direction;
+	float cutOff;
+	float outerCutOff;
+	float constant;
+	float linear;
+	float quadratic;
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+};
 
 /**
  * These numbers come from the OpenGL teapots.c demo, © Silicon Graphics, Inc., © 1994, Mark J. Kilgard. See also [1] and [2]

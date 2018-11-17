@@ -13,6 +13,8 @@
 #include "ex_color.h"
 #include "ex_basic_lighting.h"
 #include "ex_light_materials.h"
+#include "ex_light_maps.h"
+#include "ex_light_casters.h"
 
 GLLab::GLLab() {
 	camera = std::make_shared<ProjectionCamera>();
@@ -44,7 +46,7 @@ void GLLab::RenderGui() {
 
 	ImGui::Begin("example switch");
 	{
-		const char* items[] = { "PhoneLight",  "Tessellation", "EXColor", "EXBasicLighting", "EXLightMaterials"};
+		const char* items[] = { "PhoneLight",  "Tessellation", "EXColor", "EXBasicLighting", "EXLightMaterials", "EXLightMaps", "EXMultipleLights"};
 		static int item_current = 0;
 		if (ImGui::Combo("primitype", &item_current, items, IM_ARRAYSIZE(items))) {
 			if (item_current == 0) {
@@ -65,6 +67,14 @@ void GLLab::RenderGui() {
 			}
 			else if (item_current == 4) {
 				exobject_ = std::make_shared<EXLightMaterials>();
+				exobject_->Init();
+			}
+			else if (item_current == 5) {
+				exobject_ = std::make_shared<EXLightMaps>();
+				exobject_->Init();
+			}
+			else if (item_current == 6) {
+				exobject_ = std::make_shared<EXMultipleLights>();
 				exobject_->Init();
 			}
 		}
@@ -118,11 +128,11 @@ void GLLab::ProsessEvent(SDL_Event event) {
 		if (event.key.keysym.sym == SDLK_x) {
 			wander_statue = !wander_statue;
 			if (wander_statue == true) {
-				SDL_SetRelativeMouseMode(SDL_TRUE);
+				SDL_SetRelativeMouseMode(SDL_FALSE);
 				select_statue = true;
 			}
 			else {
-				SDL_SetRelativeMouseMode(SDL_FALSE);
+				SDL_SetRelativeMouseMode(SDL_TRUE);
 				select_statue = false;
 			}
 		}
@@ -134,19 +144,19 @@ void GLLab::KeyEvent() {
 	glm::vec3 front = camera->Front();
 	glm::vec3 right = camera->Right();
 	if (key_state_[SDL_SCANCODE_W] == SDL_TRUE) {
-		position -= 0.1f * front;
+		position -= 0.5f * front;
 		camera->World_position(position);
 	}
 	if (key_state_[SDL_SCANCODE_S] == SDL_TRUE) {
-		position += 0.1f * front;
+		position += 0.5f * front;
 		camera->World_position(position);
 	}
 	if (key_state_[SDL_SCANCODE_D] == SDL_TRUE) {
-		position -= 0.1f * right;
+		position -= 0.5f * right;
 		camera->World_position(position);
 	}
 	if (key_state_[SDL_SCANCODE_A] == SDL_TRUE) {
-		position += 0.1f * right;
+		position += 0.5f * right;
 		camera->World_position(position);
 	}
 }
